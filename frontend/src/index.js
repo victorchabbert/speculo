@@ -9,11 +9,11 @@ import configureStore from './store'
 const initialState = {}
 const store = configureStore(initialState)
 
-import TileContainer from './components/TileContainer'
+import Speculo from './components/Speculo'
 
 ReactDOM.render(
   <Provider store={store}>
-    <TileContainer />
+    <Speculo />
   </Provider>,
   document.getElementById('root')
 )

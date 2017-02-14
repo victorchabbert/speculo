@@ -1,20 +1,14 @@
 import React from 'react'
-import Tile from './Tile'
 
 const styles = {
-  height: '100vh',
+  flex: '1 0 33%',
   display: 'flex',
-  flexFlow: 'row wrap',
-  alignItems: 'stretch',
+  justifyContent: 'center',
+  alignItems: 'center'
 }
 
 export default (props) => (
-  <div style={styles}>
-    <Tile style={{background: 'red'}}>#1</Tile>
-    <Tile style={{background: 'blue'}}>#2</Tile>
-    <Tile style={{background: 'orange'}}>#3</Tile>
-    <Tile style={{background: 'yellow'}}>#4</Tile>
-    <Tile style={{background: 'green'}}>#5</Tile>
-    <Tile style={{background: 'purple'}}>#6</Tile>
+  <div style={Object.assign(props.style, styles)}>
+    {props.children}
   </div>
 )
