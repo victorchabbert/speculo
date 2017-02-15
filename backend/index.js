@@ -1,8 +1,33 @@
-const express = require('express')
-const app = express()
+/**
+ * Created by GILLES Damien on 15/02/2017.
+ */
 
-const PORT = 8080
+'use strict';
 
-app.get('/', (req, res) => res.send('Hello World!'))
+const Hapi = require('hapi');
 
-app.listen(PORT, () => console.log('Listening on port %s', PORT))
+// Create a server with a host and port
+const server = new Hapi.Server();
+server.connection({
+    host: 'localhost',
+    port: 8000
+});
+
+// Add the route
+server.route({
+    method: 'GET',
+    path:'/hello',
+    handler: function (request, reply) {
+
+        return reply('hello world');
+    }
+});
+
+// Start the server
+server.start((err) => {
+
+    if (err) {
+    throw err;
+}
+console.log('Server running at:', server.info.uri);
+});
