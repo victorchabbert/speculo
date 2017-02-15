@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "glue": "^4.1.0",
     "hapi": "^16.1.0"
   },
   "scripts": {

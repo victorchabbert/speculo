@@ -1,33 +1,22 @@
 /**
  * Created by GILLES Damien on 15/02/2017.
  */
-
 'use strict';
 
-const Hapi = require('hapi');
+const Glue = require('glue');
 
-// Create a server with a host and port
-const server = new Hapi.Server();
-server.connection({
-    host: 'localhost',
-    port: 8000
-});
+const manifest = require('./modules/manifest');
+const options = {
+    relativeTo: __dirname + '/modules'
+};
 
-// Add the route
-server.route({
-    method: 'GET',
-    path:'/hello',
-    handler: function (request, reply) {
-
-        return reply('hello world');
-    }
-});
-
-// Start the server
-server.start((err) => {
+Glue.compose(manifest, options, (err, server) => {
 
     if (err) {
-    throw err;
-}
-console.log('Server running at:', server.info.uri);
+        throw err;
+    }
+
+    server.start(() => {
+        console.log('server started');
+    });
 });

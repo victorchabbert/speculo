@@ -1,0 +1,16 @@
+{
+  "server": {
+    "app": {}
+  },
+  "connections": [
+    {
+      "host": "localhost",
+      "port": 8080
+    }
+  ],
+  "registrations": [
+    {
+      "plugin": "./test"
+    }
+  ]
+}
