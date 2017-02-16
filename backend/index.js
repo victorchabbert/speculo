@@ -1,8 +1,22 @@
-const express = require('express')
-const app = express()
+/**
+ * Created by GILLES Damien on 15/02/2017.
+ */
+'use strict';
 
-const PORT = 8080
+const Glue = require('glue');
 
-app.get('/', (req, res) => res.send('Hello World!'))
+const manifest = require('./modules/manifest');
+const options = {
+    relativeTo: __dirname + '/modules'
+};
 
-app.listen(PORT, () => console.log('Listening on port %s', PORT))
+Glue.compose(manifest, options, (err, server) => {
+
+    if (err) {
+        throw err;
+    }
+
+    server.start(() => {
+        console.log('server started');
+    });
+});
