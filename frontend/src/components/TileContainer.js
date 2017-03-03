@@ -7,8 +7,8 @@ const styles = {
   alignItems: 'center'
 }
 
-export default (props) => (
-  <div style={Object.assign(props.style, styles)}>
+export default ({style = {}, ...props}) => (
+  <div style={Object.assign(style, styles)}>
     {props.children}
   </div>
 )

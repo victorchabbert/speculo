@@ -9,11 +9,11 @@ import configureStore from './store'
 const initialState = {}
 const store = configureStore(initialState)
 
-import Speculo from './components/Speculo'
+import SpeculoContainer from './containers/SpeculoContainer'
 
 ReactDOM.render(
   <Provider store={store}>
-    <Speculo />
+    <SpeculoContainer />
   </Provider>,
   document.getElementById('root')
 )
