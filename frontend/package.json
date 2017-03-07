@@ -11,7 +11,8 @@
     "react-dom": "^15.4.2",
     "react-redux": "^5.0.2",
     "redux": "^3.6.0",
-    "redux-immutable": "^3.0.11"
+    "redux-immutable": "^3.0.11",
+    "styled-components": "^1.4.4"
   },
   "scripts": {
     "start": "react-scripts start",

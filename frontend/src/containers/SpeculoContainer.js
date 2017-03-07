@@ -8,9 +8,10 @@ import Plugin from '../components/PluginPlacement'
 
 export default class SpeculoContainer extends Component {
     render() {
-      const pluginNames = ["weather", "nothing"]
-      const plugins = loadPlugins(pluginNames).map((p, i) => <Plugin key={i} component={p.component} />)
+      const pluginNames = Array(2).fill("weather")
+      const pluginCount = pluginNames.length
+      const plugins = loadPlugins(pluginNames).map((p, i) => <Plugin key={i} count={pluginCount} component={p.component} />)
 
-      return <Speculo>{plugins}</Speculo>
+      return <Speculo plugins={plugins} />
     }
 }
