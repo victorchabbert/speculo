@@ -12,14 +12,17 @@ export const actions = {
   loadPlugins: (plugins) => ({type: types.LOAD_PLUGINS, plugins})
 }
 
-const initialState = Map({
-  id: null
+const initialState = fromJS({
+  id: null,
+  plugins: {}
 })
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case types.SET_ID:
       return state.set('id', action.id)
+    case types.LOAD_PLUGINS:
+      return state.setIn(['plugins'], state.get('plugins').mergeDeep(action.plugins))
     default:
       return state
   }
@@ -35,7 +38,7 @@ const normalizePlugins = plugins => plugins.reduce((prev, plugin) => {
 
 export function *saga() {
   // Todo get plugin names from manifest
-  const pluginNames = Array(2).fill("weather")
+  const pluginNames = ["weather"]
   const plugins = yield call(pluginsLoader, pluginNames)
   const pluginsNormalized = yield call(normalizePlugins, plugins)
   yield put(actions.loadPlugins(pluginsNormalized))
