@@ -1,4 +1,4 @@
-import { Map } from 'immutable'
+import { Map, fromJS } from 'immutable'
 import { call, put } from 'redux-saga/effects'
 import pluginsLoader from '../utils/pluginLoader'
 
@@ -29,9 +29,14 @@ export default (state = initialState, action) => {
 export const getID = state => state.get('id', "Not set")
 
 // Sagas
+const normalizePlugins = plugins => plugins.reduce((prev, plugin) => {
+  return prev.set(plugin.name, fromJS(plugin))
+}, Map({}))
+
 export function *saga() {
+  // Todo get plugin names from manifest
   const pluginNames = Array(2).fill("weather")
   const plugins = yield call(pluginsLoader, pluginNames)
-  yield put(actions.loadPlugins(plugins))
-  return plugins
+  const pluginsNormalized = yield call(normalizePlugins, plugins)
+  yield put(actions.loadPlugins(pluginsNormalized))
 }

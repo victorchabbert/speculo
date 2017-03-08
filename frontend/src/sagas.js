@@ -5,6 +5,6 @@ export default function *rootSaga() {
   // connect to ws
 
   // load plugins here
-  const plugins = yield call(systemSaga)
-  yield call(console.log, "plugins loaded", plugins)
+  yield call(systemSaga)
+  yield call(console.log, "plugins loaded")
 }
