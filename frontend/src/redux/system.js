@@ -59,7 +59,7 @@ const normalizePlugins = plugins => plugins.reduce((prev, plugin) => {
 
 export function *saga() {
   // Todo get plugin names from manifest
-  const pluginNames = ["weather"]
+  const pluginNames = ["weather", "time"]
   const plugins = yield call(pluginsLoader, pluginNames)
   const pluginsNormalized = yield call(normalizePlugins, plugins)
   yield put(actions.loadPlugins(pluginsNormalized))
