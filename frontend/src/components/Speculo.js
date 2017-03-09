@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import Tile from './TileContainer'
 
 const Speculo = styled.div`
   height: 100vh;
@@ -12,6 +13,8 @@ const Speculo = styled.div`
 
 export default (props) => (
   <Speculo>
-    {props.plugins}
+    {props.plugins.valueSeq().map((plugin, index) => {
+      return <Tile key={index}>{plugin.get('component').toObject()}</Tile>
+    })}
   </Speculo>
 )
