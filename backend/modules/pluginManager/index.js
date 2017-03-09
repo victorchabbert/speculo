@@ -6,26 +6,21 @@ const eventEmitter = require('events');
 /**
  * Attach listeners to pluginObject functions
  *
- * @param pluginObject plugin required
+ * @param handler plugin handler
+ * @param intents Array[String]
  * @param self pluginManager context
  */
-var bindEventListeners = (pluginObject, self) => {
+var bindEventListeners = (handler, intents, self) => {
 
-    for (var intentName in pluginObject) {
-        if (!pluginObject.hasOwnProperty(intentName)) {
-            continue;
-        }
-
+    intents.forEach((intentName) =>
+    {
         self.on(intentName,
-            //anonymous wrapper
-            (function (intentName) {
-                return (arg) => {
-                    setImmediate(() => {
-                        pluginObject[intentName](arg, self._callbackFunction);
-                    });
-                }
-            })(intentName));
-    }
+            (arg) => {
+                setImmediate(() => {
+                    handler(arg, self._callbackFunction);
+                });
+            });
+    });
 };
 
 /**
@@ -44,9 +39,9 @@ class pluginManager extends eventEmitter {
         const pluginsManifest = require("../../plugin/manifest.json");
 
         pluginsManifest.forEach((pluginDefinition) => {
-            const pluginObject = require("../../plugin/" + pluginDefinition.name);
+            const pluginHandler = require("../../plugin/" + pluginDefinition.name).handle;
 
-            bindEventListeners(pluginObject, this);
+            bindEventListeners(pluginHandler, pluginDefinition.intentsHandled, this);
         });
     }
 
@@ -75,10 +70,10 @@ module.exports = new pluginManager();
  const pluginManager = require("./modules/pluginManager");
 
  //pluginManager1.emit("weather", ["nada"]);
- pluginManager.emit("temperature", ["nada"]);
+ pluginManager.emit("temperature", {name : "temperature"});
 
  pluginManager.callbackFunction = (arg) => {
  console.log("from cb2", arg);
  };
- pluginManager.emit("weather", ["nada"]);
+ pluginManager.emit("weather", {name : "weather"});
  */

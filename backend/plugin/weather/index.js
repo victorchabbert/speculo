@@ -5,15 +5,19 @@
 
 module.exports = {
 
-    //call on weather intent
-    //must define together intentObject struct
-    weather: (intentObject, responce) => {
-        //process...
-        //return obj to display
-        responce("hi weather",intentObject);
-    },
+    handle: (intentObject, responce) => {
 
-    temperature: (intentObject, responce) => {
-        responce("hi temperature",intentObject);
+        switch (intentObject.name)
+        {
+            case "weather":
+                responce("hi weather",intentObject);
+                break;
+            case "temperature":
+                responce("hi temperature",intentObject);
+                break;
+            default :
+                console.warn("unknown intent");
+        }
+
     }
 };
