@@ -6,6 +6,10 @@
     "nes": "^6.4.0"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "start:log": "cross-env DEBUG=server* node index.js"
+  },
+  "devDependencies": {
+    "cross-env": "^3.2.3"
   }
 }
