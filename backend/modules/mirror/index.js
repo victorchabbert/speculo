@@ -1,5 +1,5 @@
-"use strict";
-
+const _debug = require('debug')
+const debug = _debug('server:modules:mirror')
 /**
  * Configure pluginManager.callbackFunction to use publish from nes
  *
@@ -39,7 +39,7 @@ const sendPluginList = (socket, path, params, next) => {
 };
 
 exports.register = function (server, options, next) {
-
+    debug('Registering mirror module.')
     server.subscription('/system',
         {
             onSubscribe: sendPluginList
