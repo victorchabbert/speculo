@@ -22,7 +22,7 @@ var configurePluginManagerCallback = (server) => {
  * @param next
  */
 var recipientMirrorFilter = (path, message, options, next) => {
-    next(options.credentials.id === message.owner);
+    next(/*options.credentials.id === message.owner*/ true);
 };
 
 exports.register = function (server, options, next)
