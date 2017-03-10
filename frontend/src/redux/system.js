@@ -1,5 +1,6 @@
 import { Map, fromJS } from 'immutable'
-import { call, put } from 'redux-saga/effects'
+import { eventChannel } from 'redux-saga'
+import { call, put, take } from 'redux-saga/effects'
 import pluginsLoader from '../utils/pluginLoader'
 
 export const types = {
@@ -57,8 +58,22 @@ const normalizePlugins = plugins => plugins.reduce((prev, plugin) => {
   return prev.set(plugin.name, fromJS(plugin))
 }, Map({}))
 
-export function *saga() {
-  // Todo get plugin names from manifest
+const systemChannel = socket => eventChannel(emit => {
+  const newPlugins = socket.subscribe('/system', event => emit(event))
+  console.log(newPlugins)
+  return () => newPlugins.unsubscribe()
+})
+
+export function *saga(socket) {
+  const socketChannel = systemChannel(socket)
+  try {
+    while (true) {
+      const plugins = yield take(socketChannel)
+      console.log('plugins', plugins)
+    }
+  } finally {
+    console.info('system socket channel closed.')
+  }
   const pluginNames = ["weather", "time"]
   const plugins = yield call(pluginsLoader, pluginNames)
   const pluginsNormalized = yield call(normalizePlugins, plugins)
