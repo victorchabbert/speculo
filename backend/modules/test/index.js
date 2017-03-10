@@ -9,6 +9,17 @@ exports.register = function (server, options, next) {
         handler: require('./test')
     });
 
+    server.route({
+        path: '/soc',
+        method: 'GET',
+        config: {
+            id: 'hello',
+            handler: require('./test2')(server)
+        }
+    });
+
+    server.subscription('/weather');
+
     next();
 };
 

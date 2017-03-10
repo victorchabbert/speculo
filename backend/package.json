@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "glue": "^4.1.0",
-    "hapi": "^16.1.0"
+    "hapi": "^16.1.0",
+    "nes": "^6.4.0"
   },
   "scripts": {
     "start": "node index.js"

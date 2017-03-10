@@ -10,7 +10,12 @@
   ],
   "registrations": [
     {
-      "plugin": "./test"
+      "plugin": {
+        "register": "nes"
+      }
+    },
+    {
+      "plugin": "./mirror"
     }
   ]
 }
