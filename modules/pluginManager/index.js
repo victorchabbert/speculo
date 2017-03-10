@@ -35,10 +35,10 @@ class pluginManager extends eventEmitter {
 
         this._callbackFunction = console.log;
 
-        const pluginsManifest = require("../../plugin/manifest.json");
+        const pluginsManifest = require("../../plugins/manifest.json");
 
         pluginsManifest.forEach((pluginDefinition) => {
-            const pluginHandler = require("../../plugin/" + pluginDefinition.name).handle;
+            const pluginHandler = require("../../plugins/" + pluginDefinition.name).handle;
 
             bindEventListeners(pluginHandler, pluginDefinition.intentsHandled, pluginDefinition.name, this);
         });

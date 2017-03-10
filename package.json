@@ -3,9 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "react-scripts": "0.9.0"
+    "react-scripts": "0.9.0",
+    "debug": "^2.6.1",
+    "cross-env": "^3.2.3"
   },
   "dependencies": {
+    "glue": "^4.1.0",
+    "hapi": "^16.1.0",
     "immutable": "^3.8.1",
     "nes": "^6.4.0",
     "react": "^15.4.2",
@@ -20,7 +24,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "server": "node index.js",
+    "server:log": "cross-env DEBUG=server* node index.js",
+    "deploy": "react-scripts build && node index.js"
   },
   "eslintConfig": {
     "extends": "react-app"

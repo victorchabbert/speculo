@@ -1,6 +1,6 @@
 const loadPlugin = (name) => {
   try {
-    const plugin = require("../plugins/" + name + "/index.js")
+    const plugin = require("../../plugins/" + name + "/index.js")
     /* TODO: better check if the plugin is valid
         Either do after loading or statically check on server run time and maintain a list
     */
