@@ -15,9 +15,9 @@ var bindEventListeners = (handler, intents, self) => {
     intents.forEach((intentName) =>
     {
         self.on(intentName,
-            (arg) => {
+            (intentObject) => {
                 setImmediate(() => {
-                    handler(arg, self._callbackFunction);
+                    handler(intentObject, self._callbackFunction(intentObject));
                 });
             });
     });

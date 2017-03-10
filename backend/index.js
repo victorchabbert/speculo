@@ -4,6 +4,7 @@
 'use strict';
 
 const Glue = require('glue');
+require('./modules/pluginManager');
 
 const manifest = require('./modules/manifest');
 const options = {

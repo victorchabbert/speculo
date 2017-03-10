@@ -5,15 +5,15 @@
 
 module.exports = {
 
-    handle: (intentObject, response) => {
+    handle: (intentObject, responce) => {
 
         switch (intentObject.name)
         {
             case "weather":
-                response("hi weather",intentObject);
+                responce("hi weather",intentObject);
                 break;
             case "temperature":
-                response("hi temperature",intentObject);
+                responce("hi temperature",intentObject);
                 break;
             default :
                 console.warn("unknown intent");

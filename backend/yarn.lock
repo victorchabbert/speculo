@@ -26,6 +26,13 @@ boom@4.x.x:
   dependencies:
     hoek "4.x.x"
 
+call@3.x.x:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/call/-/call-3.0.4.tgz#e380f2f2a491330aa79085355f8be080877d559e"
+  dependencies:
+    boom "4.x.x"
+    hoek "4.x.x"
+
 call@4.x.x:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/call/-/call-4.0.0.tgz#cd29381a98046a132db26e2628e70bd8321a1ddf"
@@ -115,7 +122,7 @@ isemail@2.x.x:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/isemail/-/isemail-2.2.1.tgz#0353d3d9a62951080c262c2aa0a42b8ea8e9e2a6"
 
-items@2.x.x:
+items@2.x.x, items@^2.1.x:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/items/-/items-2.1.1.tgz#8bd16d9c83b19529de5aea321acaada78364a198"
 
@@ -139,12 +146,29 @@ mimos@3.x.x:
     hoek "4.x.x"
     mime-db "1.x.x"
 
+nes@^6.4.0:
+  version "6.4.0"
+  resolved "https://registry.yarnpkg.com/nes/-/nes-6.4.0.tgz#35831781df19cbe5a8014169bbd70887bc5c63d0"
+  dependencies:
+    boom "4.x.x"
+    call "3.x.x"
+    cryptiles "3.x.x"
+    hoek "4.x.x"
+    iron "4.x.x"
+    items "^2.1.x"
+    joi "10.x.x"
+    ws "1.x.x"
+
 nigel@2.x.x:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/nigel/-/nigel-2.0.2.tgz#93a1866fb0c52d87390aa75e2b161f4b5c75e5b1"
   dependencies:
     hoek "4.x.x"
     vise "2.x.x"
+
+options@>=0.0.5:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/options/-/options-0.0.6.tgz#ec22d312806bb53e731773e7cdaefcf1c643128f"
 
 pez@2.x.x:
   version "2.1.4"
@@ -198,6 +222,10 @@ topo@2.x.x:
   dependencies:
     hoek "4.x.x"
 
+ultron@1.0.x:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/ultron/-/ultron-1.0.2.tgz#ace116ab557cd197386a4e88f4685378c8b2e4fa"
+
 vise@2.x.x:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/vise/-/vise-2.0.2.tgz#6b08e8fb4cb76e3a50cd6dd0ec37338e811a0d39"
@@ -210,3 +238,10 @@ wreck@10.x.x:
   dependencies:
     boom "4.x.x"
     hoek "4.x.x"
+
+ws@1.x.x:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-1.1.2.tgz#8a244fa052401e08c9886cf44a85189e1fd4067f"
+  dependencies:
+    options ">=0.0.5"
+    ultron "1.0.x"
