@@ -33,15 +33,9 @@ var recipientMirrorFilter = (path, message, options, next) => {
  * @param params
  * @param next
  */
-var sendPluginList = (socket, path, params, next) => {
-    var pluginManifest = require('../../plugin/manifest');
-
-    for (var i = 0; i < pluginManifest.length; i++)
-    {
-        pluginManifest[i].channel = `/plugin/${pluginManifest.name}`;
-    }
-
-    socket.publish(path, pluginManifest, (err) => { if (err) console.warn(err); });
+const sendPluginList = (socket, path, params, next) => {
+    const pluginManifest = require('../../plugin/manifest').map(p => p.channel = `/plugin/${p.name}`);
+    socket.publish(path, pluginManifest, (err) => err && console.warn(err));
 };
 
 exports.register = function (server, options, next) {
