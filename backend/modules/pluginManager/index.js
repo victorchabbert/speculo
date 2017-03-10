@@ -1,5 +1,3 @@
-'use strict';
-
 const eventEmitter = require('events');
 
 ////private functions of pluginManager
@@ -7,20 +5,21 @@ const eventEmitter = require('events');
  * Attach listeners to pluginObject functions
  *
  * @param handler plugin handler
- * @param intents Array[String]
+ * @param intentsHandled by the plugin
+ * @param pluginName
  * @param self pluginManager context
  */
-var bindEventListeners = (handler, intents, self) => {
+var bindEventListeners = (handler, intentsHandled, pluginName, self) => {
 
-    intents.forEach((intentName) =>
-    {
-        self.on(intentName,
+    intentsHandled.forEach((intent) => {
+        self.on(intent,
             (intentObject) => {
                 setImmediate(() => {
-                    handler(intentObject, self._callbackFunction(intentObject));
+                    handler(intentObject, self._callbackFunction(pluginName));
                 });
             });
     });
+
 };
 
 /**
@@ -41,7 +40,7 @@ class pluginManager extends eventEmitter {
         pluginsManifest.forEach((pluginDefinition) => {
             const pluginHandler = require("../../plugin/" + pluginDefinition.name).handle;
 
-            bindEventListeners(pluginHandler, pluginDefinition.intentsHandled, this);
+            bindEventListeners(pluginHandler, pluginDefinition.intentsHandled, pluginDefinition.name, this);
         });
     }
 
@@ -65,15 +64,3 @@ class pluginManager extends eventEmitter {
 
 //singleton by node cache
 module.exports = new pluginManager();
-
-/* TODO remove usage exemple
- const pluginManager = require("./modules/pluginManager");
-
- //pluginManager1.emit("weather", ["nada"]);
- pluginManager.emit("temperature", {name : "temperature"});
-
- pluginManager.callbackFunction = (arg) => {
- console.log("from cb2", arg);
- };
- pluginManager.emit("weather", {name : "weather"});
- */

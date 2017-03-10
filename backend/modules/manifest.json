@@ -16,6 +16,9 @@
     },
     {
       "plugin": "./mirror"
+    },
+    {
+      "plugin": "./test"
     }
   ]
 }

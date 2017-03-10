@@ -10,7 +10,7 @@ module.exports = {
         switch (intentObject.name)
         {
             case "weather":
-                responce("hi weather",intentObject);
+                responce("IT WORKS");
                 break;
             case "temperature":
                 responce("hi temperature",intentObject);

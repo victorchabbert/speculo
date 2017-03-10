@@ -1,14 +1,15 @@
-const _debug = require('debug')
-const debug = _debug('server:modules:mirror')
+const _debug = require('debug');
+const debug = _debug('server:modules:mirror');
+
 /**
  * Configure pluginManager.callbackFunction to use publish from nes
  *
  * @param server HAPI server
  */
 var configurePluginManagerCallback = (server) => {
-    require('../pluginManager').callbackFunction = function (intentObject) {
+    require('../pluginManager').callbackFunction = function (pluginName) {
         return (response) => {
-            server.publish('/intent/' + intentObject.name, response);
+            server.publish(`/plugin/${pluginName}`, response);
         }
     };
 };
@@ -39,7 +40,7 @@ const sendPluginList = (socket, path, params, next) => {
 };
 
 exports.register = function (server, options, next) {
-    debug('Registering mirror module.')
+    debug('Registering mirror module.');
     server.subscription('/system',
         {
             onSubscribe: sendPluginList

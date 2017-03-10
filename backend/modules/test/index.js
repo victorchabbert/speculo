@@ -18,8 +18,6 @@ exports.register = function (server, options, next) {
         }
     });
 
-    server.subscription('/weather');
-
     next();
 };
 

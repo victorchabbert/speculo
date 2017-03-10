@@ -1,12 +1,8 @@
-/**
- * Created by GILLES Damien on 15/02/2017.
- */
-"use strict";
+const pluginManager = require('../pluginManager');
 
 module.exports = (server) => {
     return function (request, reply) {
-        console.log("hello received");
-        server.publish("/weather", "il fait bo");
-        reply('Hello world2');
+        pluginManager.emit('weather', {"name": "weather"});
+        reply('received');
     };
 };
