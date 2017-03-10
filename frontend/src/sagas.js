@@ -1,10 +1,16 @@
 import { call } from 'redux-saga/effects'
 
 import { saga as systemSaga } from './redux/system'
+import createWsConnection from './utils/createWsConnection'
 export default function *rootSaga() {
-  // connect to ws
-
+  let wsConnection
+  try {
+    wsConnection = yield call(createWsConnection)
+  } catch (error) {
+    console.error('Could not connect to socket !')
+    return
+  }
   // load plugins here
-  yield call(systemSaga)
+  yield call(systemSaga, wsConnection)
   yield call(console.log, "plugins loaded")
 }
