@@ -35,7 +35,7 @@ export default (state = initialState, action) => {
       }
       return newState.setIn(['active'], newState.get('active').pop())
     case types.HIDE_PLUGIN:
-      if (!state.get('active').has(action.name)) {
+      if (!state.get('active').includes(action.name)) {
         return state
       }
       const index = state.get('active').findIndex(v => v === action.name)
@@ -50,7 +50,7 @@ export default (state = initialState, action) => {
 
 // Selectors
 export const getID = state => state.get('id', "Not set")
-export const getActivePlugins = state => state.get('plugins', Map({})).filter((v, k) => state.get('active').has(k))
+export const getActivePlugins = state => state.get('plugins', Map({})).filter((v, k) => state.get('active').includes(k))
 
 // Sagas
 const normalizePlugins = plugins => plugins.reduce((prev, plugin) => {
@@ -67,7 +67,6 @@ export function *saga(socket) {
   try {
     while (true) {
       const { plugins } = yield take(socketChannel)
-      console.log('system saga', plugins)
       const pluginsNormalized = yield call(normalizePlugins, plugins)
       yield put(actions.loadPlugins(pluginsNormalized))
     }

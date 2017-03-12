@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import Tile from './TileContainer'
 
 const Speculo = styled.div`
   height: 100vh;
@@ -10,14 +9,12 @@ const Speculo = styled.div`
   flex-flow: row wrap;
   align-items: center;
 `
-// {props.plugins.valueSeq().map((plugin, index) => {
-//   return <Tile key={index}>{plugin.get('component').toObject()}</Tile>
-// })}
 
 import PluginLoader from '../containers/PluginLoader'
 
 export default (props) => (
   <Speculo>
-    <PluginLoader />
+    {!props.plugins.isEmpty() && props.plugins.valueSeq().map((plugin, index) =>
+      <PluginLoader name={plugin.get('name')} key={index} />)}
   </Speculo>
 )

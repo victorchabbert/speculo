@@ -4,7 +4,7 @@ import Speculo from '../components/Speculo'
 import { getActivePlugins } from '../redux/system'
 
 const mapStateToProps = (state) => ({
-  plugins: getActivePlugins(state)
+  plugins: getActivePlugins(state.get('system'))
 })
 
 const mapDispatchToProps = {

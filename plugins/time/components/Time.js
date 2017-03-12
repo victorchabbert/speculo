@@ -17,11 +17,15 @@ class TimePlugin extends React.Component {
   }
 
   autoUpdateTime() {
-    setInterval(this.updateTime, 1000)
+    this._time = setInterval(this.updateTime, 1000)
   }
 
   componentDidMount() {
     this.autoUpdateTime()
+  }
+
+  componentWillUnmount() {
+    clearInterval(this._time)
   }
 
   render() {
