@@ -66,7 +66,8 @@ export function *saga(socket) {
   const socketChannel = systemChannel(socket)
   try {
     while (true) {
-      const plugins = yield take(socketChannel)
+      const { plugins } = yield take(socketChannel)
+      console.log('system saga', plugins)
       const pluginsNormalized = yield call(normalizePlugins, plugins)
       yield put(actions.loadPlugins(pluginsNormalized))
     }

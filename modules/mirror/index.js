@@ -26,7 +26,7 @@ const recipientMirrorFilter = (path, message, options, next) => {
  */
 const sendPluginList = (socket, path, params, next) => {
     socket.publish(path, {
-        "pluginsManifest" : pluginsManifest.map(p => Object.assign(p, { channel: `/plugin/${p.name}`}))
+        "plugins" : pluginsManifest.map(p => Object.assign(p, { channel: `/plugin/${p.name}`}))
     }, (err) => err && debug(err));
 };
 
