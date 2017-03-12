@@ -45,7 +45,7 @@ exports.register = function (server, options, next) {
         });
 
     //configure plugin manager
-    require('../utils/PluginManager').injectedObject =
+    require('../PluginManager').injectedObject =
         (pluginDefinition, intentObject) => (new MirrorInterface(server, pluginDefinition, intentObject));
 
     next();

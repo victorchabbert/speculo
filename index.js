@@ -7,12 +7,13 @@ const debug = _debug('server');
 const Glue = require('glue');
 
 debug('Loading manifest');
-const manifest = require('./modules/manifest');
+const makeManifest = require('./utils/makeManifest');
+const config = require('./app.config')
 const options = {
-    relativeTo: __dirname + '/modules'
+    relativeTo: __dirname + '/core'
 };
 
-Glue.compose(manifest, options, (err, server) => {
+Glue.compose(makeManifest(config), options, (err, server) => {
 
     if (err) {
       debug('An error occured.');

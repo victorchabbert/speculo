@@ -1,4 +1,4 @@
-const pluginManager = require('../utils/PluginManager');
+const pluginManager = require('../PluginManager');
 
 module.exports = (server) => {
     return function (request, reply) {
