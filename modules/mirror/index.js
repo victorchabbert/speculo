@@ -1,18 +1,8 @@
 const _debug = require('debug');
 const debug = _debug('server:modules:mirror');
 
-/**
- * Configure pluginManager.callbackFunction to use publish from nes
- *
- * @param server HAPI server
- */
-var configurePluginManagerCallback = (server) => {
-    require('../pluginManager').callbackFunction = function (pluginName) {
-        return (response) => {
-            server.publish(`/plugin/${pluginName}`, response);
-        }
-    };
-};
+const MirrorInterface = require("./MirrorInterface");
+const pluginsManifest = require('../../plugins/manifest');
 
 /**
  * Filter the mirrors that will receive the intent based on the message owner
@@ -22,7 +12,7 @@ var configurePluginManagerCallback = (server) => {
  * @param options
  * @param next
  */
-var recipientMirrorFilter = (path, message, options, next) => {
+const recipientMirrorFilter = (path, message, options, next) => {
     next(/*options.credentials.id === message.owner*/ true);
 };
 
@@ -35,8 +25,9 @@ var recipientMirrorFilter = (path, message, options, next) => {
  * @param next
  */
 const sendPluginList = (socket, path, params, next) => {
-    const pluginManifest = require('../../plugins/manifest').map(p => Object.assign(p, { channel: `/plugin/${p.name}`}));
-    socket.publish(path, pluginManifest, (err) => err && console.warn(err));
+    socket.publish(path, {
+        "pluginsManifest" : pluginsManifest.map(p => Object.assign(p, { channel: `/plugin/${p.name}`}))
+    }, (err) => err && debug(err));
 };
 
 exports.register = function (server, options, next) {
@@ -53,7 +44,9 @@ exports.register = function (server, options, next) {
             //auth:TODO
         });
 
-    configurePluginManagerCallback(server);
+    //configure plugin manager
+    require('../utils/PluginManager').injectedObject =
+        (pluginDefinition, intentObject) => (new MirrorInterface(server, pluginDefinition, intentObject));
 
     next();
 };

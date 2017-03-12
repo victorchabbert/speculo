@@ -5,17 +5,16 @@ const eventEmitter = require('events');
  * Attach listeners to pluginObject functions
  *
  * @param handler plugin handler
- * @param intentsHandled by the plugin
- * @param pluginName
+ * @param pluginDefinition from pluginsManifest
  * @param self pluginManager context
  */
-var bindEventListeners = (handler, intentsHandled, pluginName, self) => {
+var bindEventListeners = (handler, pluginDefinition, self) => {
 
-    intentsHandled.forEach((intent) => {
+    pluginDefinition.intentsHandled.forEach((intent) => {
         self.on(intent,
             (intentObject) => {
                 setImmediate(() => {
-                    handler(intentObject, self._callbackFunction(pluginName));
+                    handler(intentObject, self._injectedObject(pluginDefinition, intentObject));
                 });
             });
     });
@@ -25,7 +24,7 @@ var bindEventListeners = (handler, intentsHandled, pluginName, self) => {
 /**
  * Manage mirror plugins with an event based interaction
  */
-class pluginManager extends eventEmitter {
+class PluginManager extends eventEmitter {
     /**
      * Constructor load all plugins listed in "../../plugin/manifest.json"
      * and attach listeners to the exported functions
@@ -33,14 +32,14 @@ class pluginManager extends eventEmitter {
     constructor() {
         super();
 
-        this._callbackFunction = console.log;
+        this._injectedObject = console.log;
 
         const pluginsManifest = require("../../plugins/manifest.json");
 
         pluginsManifest.forEach((pluginDefinition) => {
             const pluginHandler = require("../../plugins/" + pluginDefinition.name).handle;
 
-            bindEventListeners(pluginHandler, pluginDefinition.intentsHandled, pluginDefinition.name, this);
+            bindEventListeners(pluginHandler, pluginDefinition, this);
         });
     }
 
@@ -48,19 +47,19 @@ class pluginManager extends eventEmitter {
      * set the callback function called by the plugins
      * !event are call asynchronously so should not be modified during run time.
      *
-     * @param callbackFunction
+     * @param injectedObject
      */
-    set callbackFunction(callbackFunction) {
-        this._callbackFunction = callbackFunction;
+    set injectedObject(injectedObject) {
+        this._injectedObject = injectedObject;
     }
 
     /**
      * @returns {*}
      */
-    get callbackFunction() {
-        return this._callbackFunction;
+    get injectedObject() {
+        return this._injectedObject;
     }
 }
 
 //singleton by node cache
-module.exports = new pluginManager();
+module.exports = new PluginManager();

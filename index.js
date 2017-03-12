@@ -5,7 +5,6 @@ const _debug = require('debug');
 const debug = _debug('server');
 
 const Glue = require('glue');
-require('./modules/pluginManager');
 
 debug('Loading manifest');
 const manifest = require('./modules/manifest');

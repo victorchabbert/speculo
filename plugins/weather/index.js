@@ -5,15 +5,20 @@
 
 module.exports = {
 
-    handle: (intentObject, response) => {
+    /**
+     *
+     * @param intentObject
+     * @param mirrors MirrorInterface
+     */
+    handle: (intentObject, mirrors) => {
 
         switch (intentObject.name)
         {
             case "weather":
-                response("IT WORKS");
+                mirrors.display("IT WORKS");
                 break;
             case "temperature":
-                response("hi temperature",intentObject);
+                mirrors.display("hi temperature",intentObject);
                 break;
             default :
                 console.warn("unknown intent");
