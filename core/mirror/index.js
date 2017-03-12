@@ -1,8 +1,7 @@
-const _debug = require('debug');
-const debug = _debug('server:modules:mirror');
+const _debug = require("debug");
+const debug = _debug("server:modules:mirror");
 
 const MirrorInterface = require("./MirrorInterface");
-const pluginsManifest = require('../../plugins/manifest');
 
 /**
  * Filter the mirrors that will receive the intent based on the message owner
@@ -13,7 +12,7 @@ const pluginsManifest = require('../../plugins/manifest');
  * @param next
  */
 const recipientMirrorFilter = (path, message, options, next) => {
-    next(/*options.credentials.id === message.owner*/ true);
+  next(/*options.credentials.id === message.owner*/ true);
 };
 
 /**
@@ -25,32 +24,40 @@ const recipientMirrorFilter = (path, message, options, next) => {
  * @param next
  */
 const sendPluginList = (socket, path, params, next) => {
-    socket.publish(path, {
-        "plugins" : pluginsManifest.map(p => Object.assign(p, { channel: `/plugin/${p.name}`}))
-    }, (err) => err && debug(err));
+  const pluginManager = require("../PluginManager");
+  socket.publish(
+    path,
+    {
+      plugins: pluginManager.activePlugins.map(name => ({
+        name: name,
+        channel: `/plugin/${name}`
+      }))
+    },
+    err => err && debug(err)
+  );
 };
 
-exports.register = function (server, options, next) {
-    debug('Registering mirror module.');
-    server.subscription('/system',
-        {
-            onSubscribe: sendPluginList
-        });
+exports.register = function(server, options, next) {
+  debug("Registering mirror module.");
+  server.subscription("/system", {
+    onSubscribe: sendPluginList
+  });
 
-    //allow any subscription following this syntax
-    server.subscription('/plugin/{name}',
-        {
-            filter: recipientMirrorFilter
-            //auth:TODO
-        });
+  //allow any subscription following this syntax
+  server.subscription("/plugin/{name}", {
+    filter: recipientMirrorFilter
+    //auth:TODO
+  });
 
-    //configure plugin manager
-    require('../PluginManager').injectedObject =
-        (pluginDefinition, intentObject) => (new MirrorInterface(server, pluginDefinition, intentObject));
+  //configure plugin manager
+  require("../PluginManager").injectedObject = (
+    pluginDefinition,
+    intentObject
+  ) => new MirrorInterface(server, pluginDefinition, intentObject);
 
-    next();
+  next();
 };
 
 exports.register.attributes = {
-    pkg: require('./package.json')
+  pkg: require("./package.json")
 };
