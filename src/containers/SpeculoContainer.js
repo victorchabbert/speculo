@@ -1,8 +1,10 @@
 import { connect } from 'react-redux'
 import Speculo from '../components/Speculo'
 
+import { getActivePlugins } from '../redux/system'
+
 const mapStateToProps = (state) => ({
-  plugins: state.getIn(['system', 'plugins'])
+  plugins: getActivePlugins(state)
 })
 
 const mapDispatchToProps = {

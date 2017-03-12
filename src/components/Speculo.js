@@ -10,11 +10,14 @@ const Speculo = styled.div`
   flex-flow: row wrap;
   align-items: center;
 `
+// {props.plugins.valueSeq().map((plugin, index) => {
+//   return <Tile key={index}>{plugin.get('component').toObject()}</Tile>
+// })}
+
+import PluginLoader from '../containers/PluginLoader'
 
 export default (props) => (
   <Speculo>
-    {props.plugins.valueSeq().map((plugin, index) => {
-      return <Tile key={index}>{plugin.get('component').toObject()}</Tile>
-    })}
+    <PluginLoader />
   </Speculo>
 )

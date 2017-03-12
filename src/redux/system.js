@@ -1,7 +1,6 @@
 import { Map, fromJS } from 'immutable'
 import { eventChannel } from 'redux-saga'
 import { call, put, take } from 'redux-saga/effects'
-import pluginsLoader from '../utils/pluginLoader'
 
 export const types = {
   SET_ID: 'SET_ID',
@@ -51,7 +50,7 @@ export default (state = initialState, action) => {
 
 // Selectors
 export const getID = state => state.get('id', "Not set")
-export const getActivePlugins = state => state.get('plugins').filter((v, k) => state.get('active').has(k))
+export const getActivePlugins = state => state.get('plugins', Map({})).filter((v, k) => state.get('active').has(k))
 
 // Sagas
 const normalizePlugins = plugins => plugins.reduce((prev, plugin) => {
@@ -59,9 +58,8 @@ const normalizePlugins = plugins => plugins.reduce((prev, plugin) => {
 }, Map({}))
 
 const systemChannel = socket => eventChannel(emit => {
-  const newPlugins = socket.subscribe('/system', event => emit(event))
-  console.log(newPlugins)
-  return () => newPlugins.unsubscribe()
+  socket.subscribe('/system', event => emit(event))
+  return () => socket.unsubscribe('/system', event => emit(event))
 })
 
 export function *saga(socket) {
@@ -69,13 +67,10 @@ export function *saga(socket) {
   try {
     while (true) {
       const plugins = yield take(socketChannel)
-      console.log('plugins', plugins)
+      const pluginsNormalized = yield call(normalizePlugins, plugins)
+      yield put(actions.loadPlugins(pluginsNormalized))
     }
   } finally {
     console.info('system socket channel closed.')
   }
-  const pluginNames = ["weather", "time"]
-  const plugins = yield call(pluginsLoader, pluginNames)
-  const pluginsNormalized = yield call(normalizePlugins, plugins)
-  yield put(actions.loadPlugins(pluginsNormalized))
 }
