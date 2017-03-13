@@ -1,4 +1,4 @@
-const React = require('react')
+const React = require('react');
 
 class TimePlugin extends React.Component {
   constructor() {
@@ -33,4 +33,4 @@ class TimePlugin extends React.Component {
   }
 }
 
-module.exports = TimePlugin
+module.exports = TimePlugin;

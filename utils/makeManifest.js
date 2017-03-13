@@ -16,13 +16,13 @@ module.exports = function makeManifest(config) {
         }
       }
     ]
-  }
+  };
 
   if (config.core_modules && config.core_modules.length > 0) {
     config.core_modules.map(m => manifest.registrations.push({
-      plugin: { register: `./${m}` }
-    }))
+      plugin: {register: `./${m}`}
+    }));
   }
 
-  return manifest
-}
+  return manifest;
+};

@@ -2,10 +2,11 @@ module.exports = {
   host: "localhost",
   port: 8080,
   plugins: [
-    "time"
+    "time",
+    "weather"
   ],
   core_modules: [
     "mirror",
     "test"
   ]
-}
+};

@@ -33,12 +33,12 @@ const sendPluginList = (socket, path, params, next) => {
         channel: `/plugin/${name}`
       }))
     },
-    err => err && debug(err)
+      err => err && debug(err)
   );
 };
 
 // Module boostrapping
-exports.register = function(server, options, next) {
+exports.register = function (server, options, next) {
   debug("Registering...");
   server.subscription("/system", {
     onSubscribe: sendPluginList
@@ -51,10 +51,8 @@ exports.register = function(server, options, next) {
   });
 
   //configure plugin manager
-  require("../PluginManager").injectedObject = (
-    plugin,
-    intentObject
-  ) => new MirrorInterface(server, plugin, intentObject);
+  require("../PluginManager").injectedObject = (plugin,
+                                                intentObject) => new MirrorInterface(server, plugin, intentObject);
 
   next();
 };

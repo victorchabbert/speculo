@@ -2,7 +2,7 @@ module.exports = {
   name: "time",
   component: require('./components/Time.js'),
   intents: [],
-  handle: (intentObject, response) => {
+  handle: (intent, response) => {
     console.log("[Time] Intent object received", intentObject)
   }
 };
