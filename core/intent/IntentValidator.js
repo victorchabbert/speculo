@@ -34,7 +34,7 @@ const intentSchema = Joi.object().keys({
     date,
     joker
   ]).required()
-});
+}).required();
 
 class IntentValidator {
   /**
