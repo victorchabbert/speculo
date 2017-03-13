@@ -39,10 +39,8 @@ export default (state = initialState, action) => {
         return state
       }
       const index = state.get('active').findIndex(v => v === action.name)
-      if (index === -1) {
-        return state
-      }
-      return state.setIn(['active'], state.get('active').delete(index))
+
+      return (index === -1) ? state : state.setIn(['active'], state.get('active').delete(index))
     default:
       return state
   }
