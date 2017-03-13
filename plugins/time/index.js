@@ -1,7 +1,11 @@
+const _debug = require("debug");
+const debug = _debug("plugin:time");
+
 module.exports = {
+  component: () => {},
   name: "time",
   intents: [],
   handle: (intent, response) => {
-    console.log("[Time] Intent object received", intentObject)
+    debug("[Time] Intent object received", intent);
   }
 };

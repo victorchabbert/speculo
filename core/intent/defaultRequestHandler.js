@@ -20,7 +20,8 @@ module.exports = function (request, reply) {
     reply("").code(400);
   }
   else {
-    pluginManager.emit(request.payload);
+    debug("received intent: %o", request.payload);
+    pluginManager.emit(request.payload.name, request.payload);
     reply("").code(201);
   }
 };
