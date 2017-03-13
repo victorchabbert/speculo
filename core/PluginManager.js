@@ -11,12 +11,12 @@ const mDebug = msg => _debug(msg);
  * @param self pluginManager context
  */
 var bindEventListeners = (plugin, self) => {
-  plugin.intents.forEach(intent => {
-    self.on(intent, intentObject => {
+  plugin.intents.forEach(name => {
+    self.on(name, intent => {
       setImmediate(() => {
         plugin.handle(
-          intentObject,
-          self._injectedObject(plugin, intentObject)
+          intent,
+          self._injectedObject(plugin, intent)
         );
       });
     });

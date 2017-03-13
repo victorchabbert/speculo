@@ -1,5 +1,5 @@
 const _debug = require("debug");
-const debug = _debug("server:modules:mirror");
+const debug = _debug("module:mirror");
 
 const MirrorInterface = require("./MirrorInterface");
 
@@ -37,8 +37,9 @@ const sendPluginList = (socket, path, params, next) => {
   );
 };
 
+// Module boostrapping
 exports.register = function(server, options, next) {
-  debug("Registering mirror module.");
+  debug("Registering...");
   server.subscription("/system", {
     onSubscribe: sendPluginList
   });
@@ -51,9 +52,9 @@ exports.register = function(server, options, next) {
 
   //configure plugin manager
   require("../PluginManager").injectedObject = (
-    pluginDefinition,
+    plugin,
     intentObject
-  ) => new MirrorInterface(server, pluginDefinition, intentObject);
+  ) => new MirrorInterface(server, plugin, intentObject);
 
   next();
 };
