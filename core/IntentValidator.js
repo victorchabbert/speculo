@@ -3,6 +3,7 @@
 const Joi = require('joi');
 
 ////JOI SCHEMA OF INTENT AS 0.0.1
+// @see doc/intent.md
 const position = Joi.object().keys({
   "type": Joi.string().equal("position").required(),
   "value" : Joi.object().keys({
@@ -17,6 +18,12 @@ const date = Joi.object().keys({
   "value": Joi.date().required()
 });
 
+//Allow plugin to follow their own convention with the "external" type
+const joker = Joi.object().keys({
+  "type": Joi.string().not("position", "date").required(),
+  "value": Joi.any().required()
+});
+
 const intentSchema = Joi.object().keys({
   "name": Joi.string().token().required(),
   "query": Joi.string(),
@@ -24,7 +31,8 @@ const intentSchema = Joi.object().keys({
   "owner": Joi.string().token().required(),
   "parameters": Joi.array().items([
     position,
-    date
+    date,
+    joker
   ]).required()
 });
 
