@@ -9,8 +9,7 @@ const Joi = require('joi');
 const pluginSchema = Joi.object().keys({
   "name": Joi.string().alphanum().required(),
   "handle": Joi.func().arity(2).required(),
-  "intents": Joi.array().items(Joi.string().token()).required(),
-  "component": Joi.func().required()
+  "intents": Joi.array().items(Joi.string().token()).required()
 }).required();
 
 class PluginValidator {
