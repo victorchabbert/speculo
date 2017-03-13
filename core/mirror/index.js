@@ -1,6 +1,7 @@
 const _debug = require("debug");
 const debug = _debug("module:mirror");
 
+const pluginManager = require('../PluginManager');
 const MirrorInterface = require("./MirrorInterface");
 
 /**
@@ -37,9 +38,22 @@ const sendPluginList = (socket, path, params, next) => {
   );
 };
 
+/**
+ * Configure the plugin manager to inject a MirrorInterface in the plugin's handle function
+ *
+ * @param server HAPI nes server
+ */
+const configurePluginManager = (server) => {
+  pluginManager.injectedObject =
+    (plugin, intentObject) => new MirrorInterface(server, plugin, intentObject);
+};
+
 // Module boostrapping
 exports.register = function (server, options, next) {
   debug("Registering...");
+
+  configurePluginManager(server);
+
   server.subscription("/system", {
     onSubscribe: sendPluginList
   });
@@ -50,10 +64,7 @@ exports.register = function (server, options, next) {
     //auth:TODO
   });
 
-  //configure plugin manager
-  require("../PluginManager").injectedObject = (plugin,
-                                                intentObject) => new MirrorInterface(server, plugin, intentObject);
-
+  debug("Complete !");
   next();
 };
 

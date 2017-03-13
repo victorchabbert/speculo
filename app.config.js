@@ -7,6 +7,7 @@ module.exports = {
   ],
   core_modules: [
     "mirror",
+    "intent",
     "test"
   ]
 };
