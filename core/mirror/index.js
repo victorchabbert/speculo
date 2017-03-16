@@ -54,6 +54,12 @@ exports.register = function (server, options, next) {
 
   configurePluginManager(server);
 
+  server.route({
+    method: 'GET',
+    path: '/',
+    handler: (req, rep) => rep('Hello from speculo')
+  })
+
   server.subscription("/system", {
     onSubscribe: sendPluginList
   });
