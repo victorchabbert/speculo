@@ -1,6 +1,7 @@
+const PROD = process.env.NODE_ENV === "production"
 module.exports = {
   host: "localhost",
-  port: 8080,
+  port: PROD ? 80 : 8080,
   plugins: [
     "time",
   ],
