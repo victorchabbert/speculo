@@ -8,7 +8,7 @@ const Glue = require('glue');
 
 debug('Loading manifest');
 const makeManifest = require('./utils/makeManifest');
-const config = require('./app.config')
+const config = require('./app.config');
 const options = {
     relativeTo: __dirname + '/core'
 };
