@@ -6,7 +6,8 @@ module.exports = {
     env: {
     },
     env_production: {
-      NODE_ENV: "production"
+      NODE_ENV: "production",
+      IP: process.env.IP ? process.env.IP : '',
     }
   }],
   deploy: {
