@@ -21,6 +21,6 @@ Glue.compose(makeManifest(config), options, (err, server) => {
     }
 
     server.start(() => {
-        debug('Started server');
+        console.log(`Server running at ${server.info.host}:${server.info.port}`)
     });
 });
