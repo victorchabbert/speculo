@@ -1,5 +1,5 @@
 const eventEmitter = require("events");
-const pluginValidator = require("./pluginValidator");
+const pluginValidator = require("./PluginValidator");
 const _debug = require('debug');
 const mDebug = msg => _debug(msg);
 

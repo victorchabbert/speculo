@@ -3,7 +3,6 @@ module.exports = {
   port: 8080,
   plugins: [
     "time",
-    "weather"
   ],
   core_modules: [
     "mirror",
