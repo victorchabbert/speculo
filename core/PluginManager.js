@@ -1,5 +1,5 @@
 const eventEmitter = require("events");
-const pluginChecker = require("./pluginChecker");
+const pluginValidator = require("./pluginValidator");
 const _debug = require('debug');
 const mDebug = msg => _debug(msg);
 
@@ -51,9 +51,17 @@ class PluginManager extends eventEmitter {
     return plugins.filter(name => {
       const debug = mDebug(`plugin:${name}`);
       debug('Checking plugin.');
-      const valid = pluginChecker(require("../plugins/" + name), mDebug(`plugin:${name} Error`));
-      !valid ? debug('Disabling plugin.') : debug('Done.');
-      return valid;
+
+      const error  = pluginValidator(require("../plugins/" + name)).error;
+
+      if(error){
+        mDebug(`plugin:${name} ERROR `)("%o", error);
+        debug('Disabling plugin.');
+      } else {
+        debug('Done.');
+      }
+
+      return error;
     });
   }
 

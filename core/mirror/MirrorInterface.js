@@ -39,15 +39,67 @@ class MirrorInterface {
   }
 
   /**
+   * Add the plugin on the client mirror
+   *
+   * @param mirrors object of this.mirrors or null to add the plugin on every display
+   */
+  add(mirrors = null) {
+    this._server.publish(`/system`,
+      //MSG
+      {
+        "type": "add",
+        "payload": {
+          "name": this._pluginDefinition.name,
+          "path": `plugins/${this._pluginDefinition.name}/components/index.js`
+        }
+      },
+      //OPTION
+      {
+        internal: mirrors
+        //user: this.user
+      });
+  }
+
+  /**
+   * Remove the plugin on the client mirror
+   *
+   * @param mirrors object of this.mirrors or null to remove the plugin on every display
+   */
+  remove(mirrors = null) {
+    this._server.publish(`/system`,
+      //MSG
+      {
+        "type": "remove",
+        "payload": {
+          "name": this._pluginDefinition.name
+        }
+      },
+      //OPTION
+      {
+        internal: mirrors
+        //user: this.user
+      });
+  }
+
+  /**
    * Show the plugin on the client mirror
    *
    * @param mirrors object of this.mirrors or null to show the plugin on every display
    */
   show(mirrors = null) {
-    this._server.publish(`/system`, {"show": this._pluginDefinition.name}, {
-      internal: mirrors
-      //user: this.user
-    });
+    this._server.publish(`/system`,
+      //MSG
+      {
+        "type": "show",
+        "payload": {
+          "name": this._pluginDefinition.name
+        }
+      },
+      //OPTION
+      {
+        internal: mirrors
+        //user: this.user
+      });
   }
 
   /**
@@ -56,10 +108,19 @@ class MirrorInterface {
    * @param mirrors object of this.mirrors or null to hide the plugin on every display
    */
   hide(mirrors = null) {
-    this._server.publish(`/system`, {"hide": this._pluginDefinition.name}, {
-      internal: mirrors
-      //user: this.user
-    });
+    this._server.publish(`/system`,
+      //MSG
+      {
+        "type": "hide",
+        "payload": {
+          "name": this._pluginDefinition.name
+        }
+      },
+      //OPTION
+      {
+        internal: mirrors
+        //user: this.user
+      });
   }
 }
 

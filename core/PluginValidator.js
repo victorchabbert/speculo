@@ -12,16 +12,16 @@ const pluginSchema = Joi.object().keys({
   "intents": Joi.array().items(Joi.string().token()).required()
 }).required();
 
-class PluginValidator {
-  /**
-   * Valid intents
-   *
-   * @param object to valid
-   * @returns {error, value} error is null if the object is valid
-   */
-  static validate(object) {
-    return Joi.validate(object, pluginSchema);
-  }
-}
 
-module.exports = PluginValidator;
+/**
+ * Valid intents
+ *
+ * @param object to valid
+ * @returns {error, value} error is null if the object is valid
+ */
+const validate = function (object) {
+  return Joi.validate(object, pluginSchema);
+};
+
+
+module.exports = validate;
