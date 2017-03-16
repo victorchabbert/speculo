@@ -5,6 +5,7 @@ const _debug = require('debug');
 const debug = _debug('server');
 
 const Glue = require('glue');
+require('dotenv').config();
 
 debug('Loading manifest');
 const makeManifest = require('./utils/makeManifest');

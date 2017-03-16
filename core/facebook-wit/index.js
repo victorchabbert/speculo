@@ -1,16 +1,14 @@
-/**
- * Created by Administrator on 13/03/2017.
- */
 "use strict";
 
 const _debug = require("debug");
-const debug = _debug("core:facebook");
+const debug = _debug("core:facebook-wit");
 
 const VERIFY_TOKEN = "zcI9G14kJo";
 
 exports.register = function (server, options, next) {
   debug("Registering...");
 
+  //TODO run on https
   server.route({
     path: '/webhooks/facebook',
     method: 'GET',
@@ -23,6 +21,16 @@ exports.register = function (server, options, next) {
         console.error("Failed validation. Make sure the validation tokens match.");
         reply("").code(403);
       }
+    }
+  });
+
+  //TODO remove, test only, short circuit facebook
+  server.route({
+    path: '/webhooks/test',
+    method: 'POST',
+    handler: function (request, reply)
+    {
+      require("./wit")(request.payload, reply);
     }
   });
 

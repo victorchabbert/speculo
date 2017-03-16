@@ -15,12 +15,6 @@ exports.register = function (server, options, next) {
     handler: require("./defaultRequestHandler")
   });
 
-  server.route({
-    path: '/intent/wit',
-    method: 'POST',
-    handler: require("./witRequestHandler")
-  });
-
   debug("Complete !");
   next();
 };
