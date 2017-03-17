@@ -1,7 +1,8 @@
 const PROD = process.env.NODE_ENV === "production"
+const PORT = process.env.PORT ? process.env.PORT : 8080
 module.exports = {
-  host: PROD ? process.env.IP : "localhost",
-  port: PROD ? 80 : 8080,
+  host: "localhost",
+  port: PORT,
   plugins: [
     "time",
   ],
