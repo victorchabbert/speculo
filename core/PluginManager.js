@@ -1,7 +1,9 @@
 const eventEmitter = require("events");
 const pluginValidator = require("./PluginValidator");
+const intentValidator = require('./intent/intentValidator');
 const _debug = require('debug');
 const mDebug = msg => _debug(msg);
+const debug = _debug('core:pluginManager');
 
 
 ////private functions of pluginManager
@@ -63,6 +65,21 @@ class PluginManager extends eventEmitter {
 
       return error;
     });
+  }
+
+  emitIntent(intent) {
+    const err = intentValidator(intent).error;
+
+    if(err) {
+      debug("WARN invalid intent: %o", intent);
+      debug(err.details);
+      return false;
+    }
+    else {
+      debug("received intent: %o", intent);
+      this.emit(intent.name, intent);
+      return true;
+    }
   }
 
   /**

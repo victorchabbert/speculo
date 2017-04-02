@@ -12,7 +12,7 @@ exports.register = function (server, options, next) {
   server.route({
     path: '/intent',
     method: 'POST',
-    handler: require("./defaultRequestHandler")
+    handler: require("./intentHandler")
   });
 
   debug("Complete !");

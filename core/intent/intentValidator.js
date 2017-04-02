@@ -6,8 +6,8 @@ const Joi = require('joi');
 // @see doc/intent.md
 const position = Joi.object().keys({
   "type": Joi.string().equal("position").required(),
-  "value" : Joi.object().keys({
-    "address" : Joi.string(),
+  "value": Joi.object().keys({
+    "address": Joi.string(),
     "lat": Joi.number().min(-90).max(90).required(),
     "long": Joi.number().min(-180).max(180).required()
   }).required()
@@ -36,16 +36,17 @@ const intentSchema = Joi.object().keys({
   ]).required()
 }).required();
 
-class IntentValidator {
-  /**
-   * Valid intents
-   *
-   * @param object to valid
-   * @returns {error, value} error is null if the object is valid
-   */
-  static validate(object) {
-    return Joi.validate(object, intentSchema);
-  }
-}
 
-module.exports = IntentValidator;
+/**
+ * Valid intents
+ *
+ * @param object to valid
+ * @returns {error, value} error is null if the object is valid
+ */
+const validate = function(object)
+{
+  return Joi.validate(object, intentSchema);
+};
+
+
+module.exports = validate;

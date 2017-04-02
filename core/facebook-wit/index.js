@@ -41,9 +41,9 @@ exports.register = function (server, options, next) {
 
           // Iterate over each messaging event
           entry.messaging.forEach(function (event) {
-            if (event.message) {
+            if (event.message && event.message.text) {
               debug("Received fb msg: ", event);
-              //require("./wit")(request.payload, reply);
+              require("./wit")(event.message.text);
             } else {
               debug("Webhook received unknown event: ", event);
             }

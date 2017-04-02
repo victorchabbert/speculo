@@ -1,10 +1,9 @@
-//TODO do you agree Victor ? (replace pluginChecker pls)
 "use strict";
 
 const Joi = require('joi');
 
 ////JOI SCHEMA OF PLUGINS AS 0.0.1
-// //TODO @see doc/plugin.md
+// @see doc/plugin.md
 
 const pluginSchema = Joi.object().keys({
   "name": Joi.string().alphanum().required(),
