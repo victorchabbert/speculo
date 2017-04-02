@@ -8,7 +8,7 @@ const VERIFY_TOKEN = "zcI9G14kJo";
 exports.register = function (server, options, next) {
   debug("Registering...");
 
-  //TODO run on https
+  //server owner validation
   server.route({
     path: '/webhooks/facebook',
     method: 'GET',
@@ -24,13 +24,34 @@ exports.register = function (server, options, next) {
     }
   });
 
-  //TODO remove, test only, short circuit facebook
+  //messages endpoint
   server.route({
-    path: '/webhooks/test',
+    path: '/webhooks/facebook',
     method: 'POST',
-    handler: function (request, reply)
-    {
-      require("./wit")(request.payload, reply);
+    handler: function (request, reply) {
+      var data = request.payload;
+
+      // Make sure this is a page subscription
+      if (data.object === 'page') {
+
+        // Iterate over each entry - there may be multiple if batched
+        data.entry.forEach(function (entry) {
+          var pageID = entry.id;
+          var timeOfEvent = entry.time;
+
+          // Iterate over each messaging event
+          entry.messaging.forEach(function (event) {
+            if (event.message) {
+              debug("Received fb msg: ", event);
+              //require("./wit")(request.payload, reply);
+            } else {
+              debug("Webhook received unknown event: ", event);
+            }
+          });
+        });
+
+        reply("").code(200);
+      }
     }
   });
 
