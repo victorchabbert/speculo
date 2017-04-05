@@ -56,7 +56,7 @@ class PluginManager extends eventEmitter {
       let error;
       try {
         const pluginPath = require(`../plugins/${name}/package.json`).main;
-        error = pluginValidator(require(`../plugins/${name}/${pluginPath}`));
+        error = pluginValidator(require(`../plugins/${name}/${pluginPath}`)).error;
       } catch(e) {
         error = e
       }
