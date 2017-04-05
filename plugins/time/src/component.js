@@ -6,17 +6,17 @@ class TimePlugin extends React.Component {
     this.state = {
       time: new Date().toLocaleString()
     }
-    this.updateTime = this.updateTime.bind(this)
-    this.autoUpdateTime = this.autoUpdateTime.bind(this)
+    // this.updateTime = this.updateTime.bind(this)
+    // this.autoUpdateTime = this.autoUpdateTime.bind(this)
   }
 
-  updateTime() {
+  updateTime = () => {
     this.setState({
       time: new Date().toLocaleString()
     })
   }
 
-  autoUpdateTime() {
+  autoUpdateTime = () => {
     this._time = setInterval(this.updateTime, 1000)
   }
 
