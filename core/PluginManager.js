@@ -53,8 +53,13 @@ class PluginManager extends eventEmitter {
     return plugins.filter(name => {
       const debug = mDebug(`plugin:${name}`);
       debug('Checking plugin.');
-
-      const error  = pluginValidator(require("../plugins/" + name)).error;
+      let error;
+      try {
+        const pluginPath = require(`../plugins/${name}/package.json`).main;
+        error = pluginValidator(require(`../plugins/${name}/${pluginPath}`));
+      } catch(e) {
+        error = e
+      }
 
       if(error){
         mDebug(`plugin:${name} ERROR `)("%o", error);
