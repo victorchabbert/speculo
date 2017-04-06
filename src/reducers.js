@@ -2,8 +2,9 @@ import { combineReducers } from 'redux-immutable'
 
 import systemReducer from './redux/system'
 
-export default function createReducer() {
+export default function createReducer(asyncReducers) {
   return combineReducers({
-    system: systemReducer
+    system: systemReducer,
+    ...asyncReducers
   })
 }

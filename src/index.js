@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import './global-styles.css'
 
 import configureStore from './store'
+import { getAsyncInjectors } from './utils/asyncInjectors'
 
 const initialState = {}
 const store = configureStore(initialState)
