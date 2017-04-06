@@ -13,8 +13,8 @@ function makePluginManifest(plugins) {
     const frontendPath = path.join('..', 'plugins', p, plugin.speculoFrontend)
     console.log(mainPath, frontendPath)
     return `${p}: {
-      main: require('${mainPath}'),
-      frontend: require('${frontendPath}')
+      main: require('${mainPath.replace(/\\/g,"\\")}'),
+      frontend: require('${frontendPath.replace(/\\/g,"\\")}')
     }`
   })
 
