@@ -39,27 +39,6 @@ class MirrorInterface {
   }
 
   /**
-   * Add the plugin on the client mirror
-   *
-   * @param mirrors object of this.mirrors or null to add the plugin on every display
-   */
-  add(mirrors = null) {
-    this._server.publish(`/system`,
-      //MSG
-      {
-        "type": "add",
-        "payload": {
-          "name": this._pluginDefinition.name
-        }
-      },
-      //OPTION
-      {
-        internal: mirrors
-        //user: this.user
-      });
-  }
-
-  /**
    * Remove the plugin on the client mirror
    *
    * @param mirrors object of this.mirrors or null to remove the plugin on every display
