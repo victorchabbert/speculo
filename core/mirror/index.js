@@ -29,10 +29,11 @@ const sendPluginList = (socket, path, params, next) => {
   socket.publish(
     path,
     {
-      plugins: pluginManager.activePlugins.map(name => ({
-        name: name,
-        channel: `/plugin/${name}`
-      }))
+      type: "list",
+      payload: pluginManager.activePlugins.map(name => ({
+          name: name,
+          channel: `/plugin/${name}`
+        }))
     },
       err => err && debug(err)
   );

@@ -42,7 +42,6 @@ Command to download and run the plugin described by the payload.
 
 The payload contain:
   - `name`* the plugin name as `String`
-  - `path`* the path `String` to download the plugin client's script
 
 #### remove
 

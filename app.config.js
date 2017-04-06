@@ -5,6 +5,7 @@ module.exports = {
   port: PORT,
   plugins: [
     "weather",
+    "time"
   ],
   core_modules: [
     "mirror",

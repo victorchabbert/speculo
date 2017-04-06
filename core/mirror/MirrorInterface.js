@@ -49,8 +49,7 @@ class MirrorInterface {
       {
         "type": "add",
         "payload": {
-          "name": this._pluginDefinition.name,
-          "path": `plugins/${this._pluginDefinition.name}/components/index.js`
+          "name": this._pluginDefinition.name
         }
       },
       //OPTION
