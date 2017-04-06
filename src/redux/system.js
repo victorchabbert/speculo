@@ -47,7 +47,7 @@ export default (state = initialState, action) => {
 // Selectors
 export const getID = state => state.get('id', "Not set")
 export const getActivePlugins = state => state.get('plugins', Map({})).filter((v, k) => state.get('active').includes(k))
-export const getChannelFromName = name => state => state.getIn('plugins', name, 'channel')
+export const getChannelFromName = name => state => state.getIn(['plugins', name, 'channel'])
 
 // Sagas
 const normalizePlugins = plugins => plugins.reduce((prev, plugin) => {

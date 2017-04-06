@@ -1,8 +1,8 @@
 import component from './component'
-import reducer from './redux'
+import reducer, { saga } from './redux'
 
 export default {
   component,
   reducer,
-  sagas: []
+  sagas: [saga]
 }

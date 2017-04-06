@@ -1,4 +1,5 @@
 import { types } from './system'
+import { eventChannel } from 'redux-saga'
 import { select, take, takeEvery, fork, cancel } from 'redux-saga/effects'
 import { plugins } from '../../plugins/pluginsManifest'
 
@@ -11,16 +12,16 @@ const getPluginSagas = (name) => {
   return p.sagas
 }
 
+const pluginChannel = (channel, socket) => eventChannel(emit => {
+  socket.subscribe(`${channel}`, event => emit(event))
+  return () => socket.unsubscribe(channel, event => emit(event))
+})
+
 function *runPluginSaga(socket, { name }) {
-  const channel = yield select(getChannelFromName(name))
-  const pluginSubscribe = cb => socket.subscribe(channel, cb)
-  const pluginUnSubscribe = cb => socket.unsubscribe(channel, cb)
+  const channel = yield select(state => getChannelFromName(name)(state.get('system')))
 
   const pluginSagas = yield getPluginSagas(name).map(
-    saga => fork(saga, {
-      subscribe: pluginSubscribe,
-      unsubscribe: pluginUnSubscribe
-    })
+    saga => fork(saga, pluginChannel, channel, socket)
   )
 
   let pluginName = ''
