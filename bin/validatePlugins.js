@@ -1,6 +1,6 @@
-const fs = require('fs')
 const path = require('path')
 const invariant = require('invariant')
+const warning = require('warning')
 const conformsTo = require('lodash/conformsTo')
 const isFunction = require('lodash/isFunction')
 const isString = require('lodash/isString')
@@ -20,7 +20,10 @@ function getPluginPackage(name) {
 function loadBackendPlugin(name, pluginPackage) {
   const backendPlugin = pluginPackage.main
 
-  if (!backendPlugin) return false
+  invariant(
+    !!backendPlugin,
+    `[${name}] Can not find main script in package.json`
+  )
 
   const plugin = requirePkg(path.join(PLUGIN_PATH, name, backendPlugin))
   validateBackendPlugin(name, plugin)
@@ -53,6 +56,10 @@ function validateBackendPlugin(name, plugin) {
 function loadFrontendPlugin(name, pluginPackage) {
   const frontendPlugin = pluginPackage.speculoFrontend
 
+  warning(
+    !!frontendPlugin,
+    `[${name}] No frontend plugin found. Check in package.json for \`speculoFrontend\`.`
+  )
   if (!frontendPlugin) return false
 
   const plugin = requirePkg(path.join(PLUGIN_PATH, name, frontendPlugin))
