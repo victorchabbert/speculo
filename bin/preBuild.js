@@ -8,16 +8,23 @@ const PLUGIN_MANIFEST = path.join(__dirname, '..', 'plugins', 'pluginsManifest.j
 
 function makePluginManifest(plugins) {
   const pluginsMap = plugins.map(p => {
-    const plugin = require(path.join(__dirname, '../plugins', p, 'package.json')).speculoFrontend
-    return `${p}: requirePkg('${path.join('../plugins', p, plugin)}')\n`
+    const plugin = require(path.join(__dirname, '../plugins', p, 'package.json'))
+    return `${p}: {
+      main: require('${path.join('../plugins', p, plugin.main)}'),
+      frontend: require('${path.join('../plugins', p, plugin.speculoFrontend)}')
+    }\n`
   })
 
   const template = `// DO NOT MODIFY THIS FILE.
-const requirePkg = require('../utils/requirePkg')
-module.pluginList = ${JSON.stringify(plugins)};
+const pluginList = ${JSON.stringify(plugins)};
 
-module.plugins = {
+const plugins = {
   ${pluginsMap}
+}
+
+module.exports = {
+  plugins,
+  pluginList
 }`
 
   return template

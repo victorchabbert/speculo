@@ -1,8 +1,6 @@
 const eventEmitter = require("events");
-const pluginValidator = require("./PluginValidator");
 const intentValidator = require('./intent/intentValidator');
 const _debug = require('debug');
-const mDebug = msg => _debug(msg);
 const debug = _debug('core:pluginManager');
 
 
@@ -44,33 +42,17 @@ class PluginManager extends eventEmitter {
   }
 
   loadPlugins() {
-    const plugins = require("../app.config.js").plugins;
-    this._activePlugins = this.checkPlugins(plugins);
-    this._activePlugins.forEach(name => bindEventListeners(require(`../plugins/${name}`), this));
-  }
-
-  checkPlugins(plugins) {
-    return plugins.filter(name => {
-      const debug = mDebug(`plugin:${name}`);
-      debug('Checking plugin.');
-
-      let errors;
-      const pluginPath = require(`../plugins/${name}/package.json`).main;
-      if (pluginPath) {
-        errors = pluginValidator(require(`../plugins/${name}/${pluginPath}`)).error;
-      } else {
-        errors = 'main script not found.'
-      }
-
-      if(errors){
-        mDebug(`plugin:${name} ERROR `)("%o", errors);
-        debug('Disabling plugin.');
-      } else {
-        debug('Done.');
-      }
-
-      return !errors;
-    });
+    try {
+      const manifest = require('../plugins/pluginsManifest')
+      this._activePlugins = manifest.pluginList
+      this._activePlugins.forEach(name => {
+        const bound = bindEventListeners(manifest.plugins[name].main.default, this)
+        _debug(`core:pluginManager::${name}`)('activated')
+        return bound
+      })
+    } catch(e) {
+      console.log(e)
+    }
   }
 
   emitIntent(intent) {
