@@ -7,21 +7,31 @@ const debug = _debug('server');
 const Glue = require('glue');
 require('dotenv').config();
 
-debug('Loading manifest');
-const makeManifest = require('./utils/makeManifest');
-const config = require('./app.config');
-const options = {
-    relativeTo: __dirname + '/core'
-};
+debug('Running plugin build script');
+const preBuild = require('./bin/preBuild')
 
-Glue.compose(makeManifest(config), options, (err, server) => {
+preBuild((err) => {
+  if (err) {
+    console.error(err);
+    return;
+  }
+
+  debug('Loading manifest');
+  const makeManifest = require('./utils/makeManifest');
+  const config = require('./app.config');
+  const options = {
+    relativeTo: __dirname + '/core'
+  };
+
+  Glue.compose(makeManifest(config), options, (err, server) => {
 
     if (err) {
       debug('An error occured.');
-        throw err;
+      throw err;
     }
 
     server.start(() => {
       console.log(`Server running at: ${server.info.uri}`);
     });
-});
+  });
+})
