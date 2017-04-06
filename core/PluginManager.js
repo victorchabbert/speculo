@@ -46,7 +46,9 @@ class PluginManager extends eventEmitter {
       const manifest = require('../plugins/pluginsManifest')
       this._activePlugins = manifest.pluginList
       this._activePlugins.forEach(name => {
-        const bound = bindEventListeners(manifest.plugins[name].main.default, this)
+        let backendPlugin = manifest.plugins[name].main
+        backendPlugin = backendPlugin.default ? backendPlugin.default : backendPlugin
+        const bound = bindEventListeners(backendPlugin, this)
         _debug(`core:pluginManager::${name}`)('activated')
         return bound
       })
