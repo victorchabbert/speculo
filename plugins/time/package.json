@@ -1,6 +1,7 @@
 {
   "name": "speculo-time",
   "main": "dist/index.js",
+  "speculoFrontend": "dist/speculoPlugin.js",
   "license": "MIT",
   "babel": {
     "presets": [

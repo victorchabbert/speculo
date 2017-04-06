@@ -12,5 +12,5 @@ export default function *rootSaga() {
   }
   // load plugins here
   yield call(systemSaga, wsConnection)
-  yield call(console.log, "plugins loaded")
+  yield call(console.log, "Plugins loaded")
 }

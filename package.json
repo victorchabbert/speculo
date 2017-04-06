@@ -12,7 +12,8 @@
     "glue": "^4.1.0",
     "hapi": "^16.1.0",
     "immutable": "^3.8.1",
-    "joi": "^10.2.2",
+    "invariant": "^2.2.2",
+    "lodash": "^4.17.4",
     "nes": "^6.4.0",
     "node-wit": "^4.2.0",
     "react": "^15.4.2",
@@ -24,8 +25,8 @@
     "styled-components": "^1.4.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "node bin/run && react-scripts start",
+    "build": "node bin/run && react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "server": "node index.js",

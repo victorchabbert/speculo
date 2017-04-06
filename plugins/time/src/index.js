@@ -1,10 +1,10 @@
-const _debug = require("debug");
-const debug = _debug("plugin:time");
+import _debug from 'debug'
+const debug = _debug("plugin:time")
 
-module.exports = {
+export default {
   name: "time",
   intents: [],
   handle: (intent, response) => {
-    debug("[Time] Intent object received", intent);
+    debug("[Time] Intent object received", intent)
   }
-};
+}

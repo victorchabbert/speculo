@@ -28,6 +28,8 @@ export default function configureStore(initialState = {}) {
   )
 
   sagaMiddleware.run(rootSaga)
+  store.runSaga = sagaMiddleware.run
+  store.asyncReducers = {}
 
   return store
 }
