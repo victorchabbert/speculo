@@ -38,7 +38,34 @@ export function injectAsyncReducer(store, isValid) {
     store.asyncReducers[name] = asyncReducer
     store.replaceReducer(createReducer(store.asyncReducers))
   }
+}
 
+export function injectAsyncReducers(store, isValid) {
+  return function injectReducers(reducersObject) {
+    if (!isValid) checkStore(store);
+
+    invariant(
+      isObject(reducersObject),
+      '[src/utils] injectAsyncReducers: Expected `asyncReducers` to be a reducer object'
+    )
+
+    Object.keys(reducersObject).forEach(name => {
+      const asyncReducer = reducersObject[name]
+
+      invariant(
+        isString(name) && !isEmpty(name) && isFunction(asyncReducer),
+        '[src/utils] injectAsyncReducer: Expected `asyncReducer` to be a reducer function'
+      )
+
+      if (Reflect.has(store.asyncReducers, name)) {
+        return
+      }
+
+      store.asyncReducers[name] = asyncReducer
+    })
+
+    store.replaceReducer(createReducer(store.asyncReducers))
+  }
 }
 
 export function injectAsyncSagas(store, isValid) {

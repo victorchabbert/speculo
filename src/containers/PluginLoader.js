@@ -1,19 +1,22 @@
 import React, { Component } from 'react'
 import Tile from '../components/TileContainer'
-import plugins from '../../plugins/pluginsConfig'
+import { plugins } from '../../plugins/pluginsManifest'
 
 class PluginLoader extends Component {
   state = {
     component: undefined,
     error: undefined
   }
+
   componentWillMount() {
-    const { component } = plugins[this.props.name]
+    let frontendPlugin = plugins[this.props.name].frontend
+
+    const { component } = frontendPlugin.default ? frontendPlugin.default : frontendPlugin
 
     if (component) {
       this.setState({ component })
     } else {
-      this.setState({ error: `${this.props.name} Component not found`})
+      this.setState({ error: `${this.props.name} Component could not be loaded`})
     }
   }
 
