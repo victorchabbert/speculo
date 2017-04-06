@@ -4,7 +4,7 @@ module.exports = {
   host: "localhost",
   port: PORT,
   plugins: [
-    "time",
+    "weather",
   ],
   core_modules: [
     "mirror",

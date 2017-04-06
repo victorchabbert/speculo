@@ -7,7 +7,7 @@ const {Wit, log} = require("node-wit");
 const pluginManager = require('../PluginManager');
 
 const client = new Wit({
-  accessToken: process.env.WIT_SERCRET,
+  accessToken: process.env.WIT_SECRET,
   logger: new log.Logger(log.DEBUG) //TODO disable in prod
 });
 
@@ -28,7 +28,8 @@ const witIntentAdapter = function (witIntent) {
 module.exports = (textRequest) => client.message(textRequest, {})
   .then(
   (witIntent) => {
-    pluginManager.emitIntent(witIntentAdapter(witIntent));
+    //pluginManager.emitIntent(witIntentAdapter(witIntent));
+    pluginManager.emit(witIntentAdapter(witIntent).name, witIntentAdapter(witIntent));
   }
 )
   .catch(console.error);

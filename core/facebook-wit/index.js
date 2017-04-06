@@ -3,7 +3,7 @@
 const _debug = require("debug");
 const debug = _debug("core:facebook-wit");
 
-const VERIFY_TOKEN = "zcI9G14kJo";
+const VERIFY_TOKEN = "zcI9G14kJp";
 
 exports.register = function (server, options, next) {
   debug("Registering...");
@@ -33,7 +33,6 @@ exports.register = function (server, options, next) {
 
       // Make sure this is a page subscription
       if (data.object === 'page') {
-
         // Iterate over each entry - there may be multiple if batched
         data.entry.forEach(function (entry) {
           var pageID = entry.id;
@@ -49,9 +48,9 @@ exports.register = function (server, options, next) {
             }
           });
         });
-
-        reply("").code(200);
       }
+
+      reply("").code(200);
     }
   });
 
