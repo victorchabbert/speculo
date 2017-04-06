@@ -1,5 +1,28 @@
 {
   "name": "speculo-weather",
-  "main": "src/index.js",
-  "license": "MIT"
+  "main": "dist/index.js",
+  "speculoFrontend": "dist/speculoPlugin.js",
+  "license": "MIT",
+  "babel": {
+    "presets": [
+      "es2015",
+      "react"
+    ]
+  },
+  "scripts": {
+    "build": "NODE_ENV=production webpack",
+    "dev": "webpack --watch"
+  },
+  "devDependencies": {
+    "babel-core": "^6.24.0",
+    "babel-loader": "^6.4.1",
+    "babel-plugin-transform-class-properties": "^6.23.0",
+    "babel-preset-es2015": "^6.24.0",
+    "babel-preset-react": "^6.23.0",
+    "webpack": "^2.3.2",
+    "webpack-node-externals": "^1.5.4"
+  },
+  "dependencies": {
+    "react": "^15.4.2"
+  }
 }
