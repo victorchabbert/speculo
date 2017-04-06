@@ -12,19 +12,19 @@ function makePluginManifest(plugins) {
     return `${p}: {
       main: require('${path.join('../plugins', p, plugin.main)}'),
       frontend: require('${path.join('../plugins', p, plugin.speculoFrontend)}')
-    }\n`
+    }`
   })
 
   const template = `// DO NOT MODIFY THIS FILE.
 const pluginList = ${JSON.stringify(plugins)};
 
 const plugins = {
-  ${pluginsMap}
+  ${pluginsMap.join(',\n')}
 }
 
 module.exports = {
-  plugins,
-  pluginList
+  plugins: plugins,
+  pluginList: pluginList
 }`
 
   return template

@@ -1,5 +1,6 @@
 const _debug = require("debug");
 const debug = _debug("module:mirror");
+const path = require('path')
 
 const pluginManager = require('../PluginManager');
 const MirrorInterface = require("./MirrorInterface");
@@ -58,7 +59,19 @@ exports.register = function (server, options, next) {
   server.route({
     method: 'GET',
     path: '/',
-    handler: (req, rep) => rep('Hello from speculo')
+    handler: function(request, reply) {
+      reply.file(path.join(__dirname, '..', '..', 'build/index.html'))
+    }
+  })
+
+  server.route({
+    method: 'GET',
+    path: '/static/{file*}',
+    handler: {
+      directory: {
+        path: path.join(__dirname, '..', '..', 'build/static')
+      }
+    }
   })
 
   server.subscription("/system", {

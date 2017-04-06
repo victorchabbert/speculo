@@ -14,6 +14,11 @@ module.exports = function makeManifest(config) {
         plugin: {
           register: "nes"
         }
+      },
+      {
+        plugin: {
+          register: "inert"
+        }
       }
     ]
   };
