@@ -9,9 +9,12 @@ const PLUGIN_MANIFEST = path.join(__dirname, '..', 'plugins', 'pluginsManifest.j
 function makePluginManifest(plugins) {
   const pluginsMap = plugins.map(p => {
     const plugin = require(path.join(__dirname, '..', 'plugins', p, 'package.json'))
+    const mainPath = path.join('..', 'plugins', p, plugin.main)
+    const frontendPath = path.join('..', 'plugins', p, plugin.speculoFrontend)
+    console.log(mainPath, frontendPath)
     return `${p}: {
-      main: require('${path.join('..', 'plugins', p, plugin.main)}'),
-      frontend: require('${path.join('..', 'plugins', p, plugin.speculoFrontend)}')
+      main: require('${mainPath}'),
+      frontend: require('${frontendPath}')
     }`
   })
 
