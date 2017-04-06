@@ -16,21 +16,22 @@ let componentMapString = ''
 pluginsConfig.forEach(p => {
   try {
     const pluginPath = require(path.join(__dirname, '../plugins', p, 'package.json'))
-      const component = pluginPath.component
+      const plugin = pluginPath.speculoPlugin
 
-      if (!component) {
-        console.error(p, 'Component not found in package.json')
+      if (!plugin) {
+        console.error(p, 'Plugin not found in package.json')
         return
       }
-      componentMapString += `"${p}": ${p}`
-      requireString += `import ${p} from '${path.join('../plugins', p, component)}'\n`
+
+      componentMapString += `"${p}": ${p}.default`
+      requireString += `const ${p} = require('${path.join('../plugins', p, plugin)}')\n`
   } catch(e) {
     console.log(p, 'package json not found')
   }
 })
 
 const fileTemplate = `${requireString}
-export default {
+module.exports = {
   ${componentMapString}
 }`
 

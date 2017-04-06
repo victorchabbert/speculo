@@ -53,22 +53,23 @@ class PluginManager extends eventEmitter {
     return plugins.filter(name => {
       const debug = mDebug(`plugin:${name}`);
       debug('Checking plugin.');
-      let error;
-      try {
-        const pluginPath = require(`../plugins/${name}/package.json`).main;
-        error = pluginValidator(require(`../plugins/${name}/${pluginPath}`)).error;
-      } catch(e) {
-        error = e
+
+      let errors;
+      const pluginPath = require(`../plugins/${name}/package.json`).main;
+      if (pluginPath) {
+        errors = pluginValidator(require(`../plugins/${name}/${pluginPath}`)).error;
+      } else {
+        errors = 'main script not found.'
       }
 
-      if(error){
-        mDebug(`plugin:${name} ERROR `)("%o", error);
+      if(errors){
+        mDebug(`plugin:${name} ERROR `)("%o", errors);
         debug('Disabling plugin.');
       } else {
         debug('Done.');
       }
 
-      return error;
+      return !errors;
     });
   }
 

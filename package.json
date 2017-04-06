@@ -24,8 +24,8 @@
     "styled-components": "^1.4.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "node bin/makePlugins && react-scripts start",
+    "build": "node bin/makePlugins && react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "server": "node index.js",

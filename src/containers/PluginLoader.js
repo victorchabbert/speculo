@@ -1,17 +1,6 @@
 import React, { Component } from 'react'
 import Tile from '../components/TileContainer'
-
-const AsyncLoad = name => new Promise((resolve, reject) => {
-  require.ensure([], () => {
-    const plugin = require(`../../plugins/${name}/index.js`)
-    if (plugin.component) {
-      return resolve({
-        component: plugin.component
-      })
-    }
-    return reject(`No component for ${name}`)
-  })
-})
+import plugins from '../../plugins/pluginsConfig'
 
 class PluginLoader extends Component {
   state = {
@@ -19,13 +8,18 @@ class PluginLoader extends Component {
     error: undefined
   }
   componentWillMount() {
-    AsyncLoad(this.props.name)
-    .then(({ component }) => this.setState({ component }))
-    .catch(error => this.setState({ error }))
+    const { component } = plugins[this.props.name]
+
+    if (component) {
+      this.setState({ component })
+    } else {
+      this.setState({ error: `${this.props.name} Component not found`})
+    }
   }
+
   render() {
     return <Tile>
-      {(!this.state.component && <p>Loading...</p>)}
+      {(!(this.state.component || this.state.error) && <p>Loading...</p>)}
       {(this.state.error && <p style={{background: 'red', color: 'white'}}>{this.state.error}</p>)}
       {(this.state.component && <this.state.component />)}
     </Tile>

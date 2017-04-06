@@ -1,4 +1,4 @@
-const React = require('react');
+import React from 'react'
 
 class TimePlugin extends React.Component {
   constructor() {
@@ -33,4 +33,4 @@ class TimePlugin extends React.Component {
   }
 }
 
-module.exports = TimePlugin;
+export default TimePlugin;
