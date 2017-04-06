@@ -1,6 +1,8 @@
 import { call } from 'redux-saga/effects'
 
 import { saga as systemSaga } from './redux/system'
+import { saga as pluginSaga } from './redux/plugin'
+
 import createWsConnection from './utils/createWsConnection'
 export default function *rootSaga() {
   let wsConnection
@@ -11,6 +13,8 @@ export default function *rootSaga() {
     return
   }
   // load plugins here
-  yield call(systemSaga, wsConnection)
-  yield call(console.log, "Plugins loaded")
+  yield [
+    call(systemSaga, wsConnection),
+    call(pluginSaga, wsConnection)
+  ]
 }

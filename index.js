@@ -1,6 +1,8 @@
 /**
  * Created by GILLES Damien on 15/02/2017.
  */
+require('babel-polyfill')
+
 const _debug = require('debug');
 const debug = _debug('server');
 
