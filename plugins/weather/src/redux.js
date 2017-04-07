@@ -30,13 +30,14 @@ export function *saga(channel) {
 
   try {
     while(true) {
-      const { main, weather } = yield take(channel)
+      const { main, weather, address } = yield take(channel)
       const { icon, description } = weather[0];
 
       const data = {
         temp: getCelsius(main.temp),
         icon: `http://openweathermap.org/img/w/${icon}.png`,
-        description
+        description,
+        city: address
       }
 
       yield put(actions.setData(data))

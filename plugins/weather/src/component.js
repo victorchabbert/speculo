@@ -7,6 +7,7 @@ class WeatherPlugin extends React.Component {
     return <div>
       <img src={data.get('icon')} alt="weather"/>
       <p>{data.get('temp')} {data.get('description')}</p>
+      <p>{data.get('city')}</p>
     </div>
   }
 }
