@@ -41,6 +41,7 @@ module.exports = {
           (weather) => {
             if (weather) {
               debug("SENDING TO MIRROR", weather);
+              weather.address = OWPRequest.address;
               mirrors.display(weather);
             }
           });
