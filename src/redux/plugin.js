@@ -13,15 +13,15 @@ const getPluginSagas = (name) => {
 }
 
 const pluginChannel = (channel, socket) => eventChannel(emit => {
-  socket.subscribe(`${channel}`, event => emit(event))
-  return () => socket.unsubscribe(channel, event => emit(event))
+  socket.subscribe(`${channel}`, event => emit(event), () => null)
+  return () => socket.unsubscribe(channel, event => emit(event), () => null)
 })
 
 function *runPluginSaga(socket, { name }) {
   const channel = yield select(state => getChannelFromName(name)(state.get('system')))
 
   const pluginSagas = yield getPluginSagas(name).map(
-    saga => fork(saga, pluginChannel, channel, socket)
+    saga => fork(saga, pluginChannel(channel, socket))
   )
 
   let pluginName = ''

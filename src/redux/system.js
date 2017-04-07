@@ -55,8 +55,8 @@ const normalizePlugins = plugins => plugins.reduce((prev, plugin) => {
 }, Map({}))
 
 const systemChannel = socket => eventChannel(emit => {
-  socket.subscribe('/system', event => emit(event))
-  return () => socket.unsubscribe('/system', event => emit(event))
+  socket.subscribe('/system', event => emit(event), () => null)
+  return () => socket.unsubscribe('/system', event => emit(event), () => null)
 })
 
 export function *saga(socket) {
@@ -64,21 +64,23 @@ export function *saga(socket) {
   try {
     while (true) {
       const { type, payload } = yield take(socketChannel)
+
       switch (type) {
         case 'list':
           const pluginsNormalized = yield call(normalizePlugins, payload)
           yield put(actions.loadPlugins(pluginsNormalized))
           break;
         case 'show':
-          put(actions.showPlugins(payload.name))
+          yield put(actions.showPlugin(payload.name))
           break;
         case 'hide':
-          put(actions.hidePlugins(payload.name))
+          yield put(actions.hidePlugin(payload.name))
           break;
         case 'remove':
-          yield put(actions.removePlugins(payload.name))
+          yield put(actions.removePlugin(payload.name))
           break;
         default:
+          yield console.log('Unhandled type', type, payload)
           break;
       }
     }

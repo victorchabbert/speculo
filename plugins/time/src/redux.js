@@ -5,14 +5,14 @@ export default (state = {}, action) => {
   return state
 }
 
-export function *saga({ subscribe }) {
+export function *saga() {
   try {
     yield console.log('Hello from time')
     while (true) {
       yield take('test')
     }
   } finally {
-    if (yield cancelled) {
+    if (yield cancelled()) {
       yield console.info('time saga cancelled')
     }
   }
