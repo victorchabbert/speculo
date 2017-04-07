@@ -6,38 +6,31 @@ let openWeatherMap = new OpenWeatherMap(process.env.OPEN_WEATHER_MAP_SECRET);
 
 module.exports = {
   /**
-     * @returns The list of intents handle by the plugin
-     */
-  intents: ["weather"],
+   * @returns The list of intents handle by the plugin
+   */
+  intents: ["weather", "add_weather"],
   name: "weather",
   /**
-     *
-     * @param intent
-     * @param mirrors MirrorInterface
-     */
+   *
+   * @param intent
+   * @param mirrors MirrorInterface
+   */
   handle: (intent, mirrors) => {
     debug("HI");
 
     let OWPRequest = {
-      "address" : "Cergy",
+      "address": "Cergy",
       "date": new Date()
     };
 
     switch (intent.name) {
       case "weather":
-
-        mirrors.show();
-
-        debug("Handle weather");
-
         intent.parameters.forEach(
           (arg) => {
-            if(arg.type == "position")
-            {
+            if (arg.type == "position") {
               OWPRequest.address = arg.value.address;
             }
-            else if (arg.type == "date")
-            {
+            else if (arg.type == "date") {
               OWPRequest.date = arg.value;
             }
           }
@@ -46,12 +39,15 @@ module.exports = {
         debug("Solving weather for", OWPRequest);
         openWeatherMap.getForecast(OWPRequest.address, OWPRequest.date,
           (weather) => {
-            if(weather)
-            {
+            if (weather) {
               debug("SENDING TO MIRROR", weather);
               mirrors.display(weather);
             }
           });
+        break;
+      case "add_weather":
+        debug("ADD_WEATHER");
+        mirrors.show();
         break;
       default:
     }
