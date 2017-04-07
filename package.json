@@ -15,6 +15,7 @@
     "immutable": "^3.8.1",
     "inert": "^4.2.0",
     "invariant": "^2.2.2",
+    "localtunnel": "^1.8.2",
     "lodash": "^4.17.4",
     "nes": "^6.4.0",
     "node-wit": "^4.2.0",

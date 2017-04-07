@@ -9,14 +9,16 @@ const http = require("http");
  */
 const getCloser = function (weatherForecast, targetTime, maxDateDif) {
   let res = null;
+  let dif = maxDateDif;
 
   for (let i = 0; i < weatherForecast.list.length; i++) {
     let currentDateDif = Math.abs(new Date(weatherForecast.list[i].dt_txt).getTime() - targetTime);
-    if (currentDateDif < maxDateDif) {
-      maxDateDif = currentDateDif;
+    if (currentDateDif < dif) {
+      dif = currentDateDif;
       res = weatherForecast.list[i]
     }
   }
+
   return res;
 };
 
@@ -39,7 +41,7 @@ class OpenWeatherMap {
    * @param place String
    * @param date Datetime
    */
-  getForecast(place, date) {
+  getForecast(place, date, callback) {
     options.path = '/data/2.5/forecast?q=' + encodeURIComponent(place) + "&APPID=" + encodeURIComponent(this._secret);
 
     http.get(options, function (res) {
@@ -56,8 +58,7 @@ class OpenWeatherMap {
               console.log('OpenWeatherMapError ', res)
             }
 
-            console.log("LOAD SUCCED", parsedData);
-            return getCloser(parsedData, date.getTime(), 6 * 3600 * 1000);
+            callback(getCloser(parsedData, date.getTime(), 6 * 3600 * 1000));
           } catch (e) {
             console.log(e.message);
           }

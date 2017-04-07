@@ -26,6 +26,8 @@ module.exports = {
     switch (intent.name) {
       case "weather":
 
+        mirrors.show();
+
         debug("Handle weather");
 
         intent.parameters.forEach(
@@ -42,14 +44,14 @@ module.exports = {
         );
 
         debug("Solving weather for", OWPRequest);
-        let weather = openWeatherMap.getForecast(OWPRequest.address, OWPRequest.date);
-
-        if(weather)
-        {
-          debug("SENDING TO MIRROR", weather);
-          mirrors.display(weather);
-        }
-
+        openWeatherMap.getForecast(OWPRequest.address, OWPRequest.date,
+          (weather) => {
+            if(weather)
+            {
+              debug("SENDING TO MIRROR", weather);
+              mirrors.display(weather);
+            }
+          });
         break;
       default:
     }
