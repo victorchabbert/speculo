@@ -38,6 +38,8 @@ const sendPluginList = (socket, path, params, next) => {
     },
       err => err && debug(err)
   );
+
+  next();
 };
 
 /**
