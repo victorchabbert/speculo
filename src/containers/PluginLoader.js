@@ -8,16 +8,25 @@ class PluginLoader extends Component {
     error: undefined
   }
 
-  componentWillMount() {
-    let frontendPlugin = plugins[this.props.name].frontend
-
+  setComponent = name => {
+    let frontendPlugin = plugins[name].frontend
     const { component } = frontendPlugin.default ? frontendPlugin.default : frontendPlugin
-
     if (component) {
       this.setState({ component })
     } else {
-      this.setState({ error: `${this.props.name} Component could not be loaded`})
+      this.setState({ error: `${name} Component could not be loaded`})
     }
+  }
+
+  componentWillMount() {
+    this.setComponent(this.props.name)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.name === this.props.name) {
+      return
+    }
+    this.setComponent(nextProps.name)
   }
 
   render() {

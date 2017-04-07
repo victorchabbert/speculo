@@ -11,7 +11,7 @@ function makePluginManifest(plugins) {
     const plugin = require(path.join(__dirname, '..', 'plugins', p, 'package.json'))
     const mainPath = path.join('..', 'plugins', p, plugin.main)
     const frontendPath = path.join('..', 'plugins', p, plugin.speculoFrontend)
-    console.log(mainPath, frontendPath)
+
     return `${p}: {
       main: require('${mainPath.replace(/\\/g,"\\\\")}'),
       frontend: require('${frontendPath.replace(/\\/g,"\\\\")}')
