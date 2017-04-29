@@ -22,7 +22,7 @@ module.exports = {
       "address": "Cergy",
       "date": new Date()
     };
-
+    debug("Solving intent", intent);
     switch (intent.name) {
       case "weather":
         intent.parameters.forEach(

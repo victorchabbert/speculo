@@ -13,16 +13,38 @@ const client = new Wit({
 
 //TODO multiples entities per call
 const witIntentAdapter = function (witIntent) {
-  return {
+  let intent = {
     name : Object.keys(witIntent.entities)[0],
     query: witIntent._text,
     confidence : witIntent.entities[Object.keys(witIntent.entities)[0]][0].confidence,
     owner: "unknown",//TODO id owner
-    parameters: [{
-      type: Object.keys(witIntent.entities)[0],
-      value: witIntent.entities[Object.keys(witIntent.entities)[0]][0].value
-    }]
+    parameters: []
   };
+
+  for(let i = 0; i < Object.keys(witIntent.entities).length; i++) {
+    let type = Object.keys(witIntent.entities)[i];
+    let value = witIntent.entities[Object.keys(witIntent.entities)[i]][0].value;
+
+    switch (Object.keys(witIntent.entities)[i]) {
+      case "location":
+        type = "position";
+        value = {"address": value};
+            break;
+      case "datetime":
+        type = "date";
+        value = new Date(value);
+            break;
+      default :
+            break;
+    }
+
+    intent.parameters.push({
+      type: type,
+      value: value
+    });
+  }
+
+  return intent;
 };
 
 module.exports = (textRequest) => client.message(textRequest, {})

@@ -10,7 +10,7 @@
     ]
   },
   "scripts": {
-    "build": "NODE_ENV=production webpack",
+    "build": "cross-env NODE_ENV=production webpack",
     "dev": "webpack --watch"
   },
   "devDependencies": {
@@ -23,6 +23,7 @@
     "webpack-node-externals": "^1.5.4"
   },
   "dependencies": {
+    "cross-env": "^4.0.0",
     "immutable": "^3.8.1",
     "react": "^15.4.2"
   }
