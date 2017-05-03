@@ -1,6 +1,5 @@
 "use strict";
-const _debug = require("debug");
-const debug = _debug("core:facebook");
+const debug = require("debug")("core:facebook");
 
 const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 
@@ -16,10 +15,10 @@ exports.register = function (server, options, next) {
     handler: function (request, reply) {
       if (request.query['hub.mode'] === 'subscribe' &&
         request.query['hub.verify_token'] === VERIFY_TOKEN) {
-        console.log("Validating webhook");
+        debug("Validating webhook");
         reply(request.query['hub.challenge']).code(200);
       } else {
-        console.error("Failed validation. Make sure the validation tokens match.");
+        debug("Failed validation. Make sure the validation tokens match.");
         reply("").code(403);
       }
     }

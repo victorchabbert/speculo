@@ -1,7 +1,7 @@
-const _debug = require("debug");
-const debug = _debug("core:intent:defaultRequestHandler");
+"use strict";
+const debug = require("debug")("core:intent:intentHandler");
 
-const pluginManager = require('../PluginManager');
+const intentEmitter = require('../PluginManager').emitIntent;
 
 /**
  * Default intent request handler
@@ -11,8 +11,7 @@ const pluginManager = require('../PluginManager');
  */
 module.exports = function (request, reply) {
 
-  if(pluginManager.emitIntent(request.payload))
-  {
+  if (intentEmitter(request.payload)) {
     reply("").code(201);
   }
   else { //invalid intent

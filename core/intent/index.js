@@ -1,10 +1,7 @@
-/**
- * Created by Administrator on 13/03/2017.
- */
 "use strict";
+const debug = require("debug")("core:intent");
 
-const _debug = require("debug");
-const debug = _debug("core:intent");
+const intentHandler = require("./intentHandler");
 
 exports.register = function (server, options, next) {
   debug("Registering...");
@@ -12,7 +9,7 @@ exports.register = function (server, options, next) {
   server.route({
     path: '/intent',
     method: 'POST',
-    handler: require("./intentHandler")
+    handler: intentHandler
   });
 
   debug("Complete !");

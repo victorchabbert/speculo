@@ -1,4 +1,5 @@
 "use strict";
+const debug = require("debug")("module:mirror:MirrorInterface");
 
 ////private functions of MirrorInterface
 /**

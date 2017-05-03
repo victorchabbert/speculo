@@ -1,7 +1,7 @@
-const _debug = require("debug");
-const debug = _debug("module:mirror");
-const path = require('path')
+"use strict";
+const debug = require("debug")("module:mirror");
 
+const path = require('path');
 const pluginManager = require('../PluginManager');
 const MirrorInterface = require("./MirrorInterface");
 
@@ -32,9 +32,9 @@ const sendPluginList = (socket, path, params, next) => {
     {
       type: "list",
       payload: pluginManager.activePlugins.map(name => ({
-          name: name,
-          channel: `/plugin/${name}`
-        }))
+        name: name,
+        channel: `/plugin/${name}`
+      }))
     },
       err => err && debug(err)
   );
@@ -61,7 +61,7 @@ exports.register = function (server, options, next) {
   server.route({
     method: 'GET',
     path: '/',
-    handler: function(request, reply) {
+    handler: function (request, reply) {
       reply.file(path.join(__dirname, '..', '..', 'build/index.html'))
     }
   });

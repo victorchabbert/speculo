@@ -1,6 +1,5 @@
 "use strict";
-const _debug = require("debug");
-const debug = _debug("core:facebook:messageHandler");
+const debug = require("debug")("core:facebook:messageHandler");
 
 const witSolver = require("../wit");
 
