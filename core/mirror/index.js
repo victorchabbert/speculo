@@ -64,7 +64,7 @@ exports.register = function (server, options, next) {
     handler: function(request, reply) {
       reply.file(path.join(__dirname, '..', '..', 'build/index.html'))
     }
-  })
+  });
 
   server.route({
     method: 'GET',
@@ -74,7 +74,7 @@ exports.register = function (server, options, next) {
         path: path.join(__dirname, '..', '..', 'build/static')
       }
     }
-  })
+  });
 
   server.subscription("/system", {
     onSubscribe: sendPluginList

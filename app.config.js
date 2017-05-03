@@ -10,6 +10,6 @@ module.exports = {
   core_modules: [
     "mirror",
     "intent",
-    "facebook-wit"
+    "facebook"
   ]
 };

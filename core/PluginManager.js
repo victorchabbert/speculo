@@ -43,8 +43,8 @@ class PluginManager extends eventEmitter {
 
   loadPlugins() {
     try {
-      const manifest = require('../plugins/pluginsManifest')
-      this._activePlugins = manifest.pluginList
+      const manifest = require('../plugins/pluginsManifest');
+      this._activePlugins = manifest.pluginList;
       this._activePlugins.forEach(name => {
         let backendPlugin = manifest.plugins[name].main
         backendPlugin = backendPlugin.default ? backendPlugin.default : backendPlugin
