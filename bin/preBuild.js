@@ -37,7 +37,7 @@ module.exports = function run(cb) {
   const validatedPlugins = validatePlugins()
 
   if (fs.existsSync(PLUGIN_MANIFEST)) {
-    fs.unlink(PLUGIN_MANIFEST)
+    fs.unlink(PLUGIN_MANIFEST, debug)
   }
 
   fs.writeFile(PLUGIN_MANIFEST, makePluginManifest(validatedPlugins), cb)

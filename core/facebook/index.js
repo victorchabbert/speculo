@@ -4,6 +4,7 @@ const debug = require("debug")("core:facebook");
 const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 
 const messageHandler = require("./messageHandler");
+const verifyTokenHandler = require("./verifyTokenHandler");
 
 exports.register = function (server, options, next) {
   debug("Registering...");
@@ -12,16 +13,7 @@ exports.register = function (server, options, next) {
   server.route({
     path: '/webhooks/facebook',
     method: 'GET',
-    handler: function (request, reply) {
-      if (request.query['hub.mode'] === 'subscribe' &&
-        request.query['hub.verify_token'] === VERIFY_TOKEN) {
-        debug("Validating webhook");
-        reply(request.query['hub.challenge']).code(200);
-      } else {
-        debug("Failed validation. Make sure the validation tokens match.");
-        reply("").code(403);
-      }
-    }
+    handler: verifyTokenHandler
   });
 
   //messages endpoint

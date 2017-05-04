@@ -1,8 +1,8 @@
+"use strict";
+const debug = require('debug')('core:pluginManager');
+
 const eventEmitter = require("events");
 const intentValidator = require('./intent/intentValidator');
-const _debug = require('debug');
-const debug = _debug('core:pluginManager');
-
 
 ////private functions of pluginManager
 /**

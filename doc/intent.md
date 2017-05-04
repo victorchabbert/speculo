@@ -1,5 +1,5 @@
 <!-- version -->
-# 0.0.1 intent API Reference
+# 0.1.0 intent API Reference
 <!-- end version -->
 
 <!-- toc -->
@@ -7,10 +7,7 @@
     - [Description](#description)
     - [Schema](#schema)
       - [Structure](#structure)
-        - [Parameters Types](#parameters)
-          - [Date](#date)
-          - [Position](#position)
-          - [Joker](#joker)
+        - [Parameters](#parameters)
     - [Example](#example)
 <!-- end toc -->
 
@@ -18,8 +15,8 @@
 
 ## Description
 
-Intents are objects that convey the will and the identity of a user over the application.
-Every incoming message is translated into an intent and treated by the user's plugins.
+Intents are objects that convey the query and the identity of a user in the system.
+Every incoming message is translated into an intent and treated by the user's applications.
 
 ## Schema
 
@@ -27,32 +24,16 @@ Every incoming message is translated into an intent and treated by the user's pl
 
 An intent consist in a JavaScript object containing the following keys (only). 
 The keys marked with a star are required
-  - `name`* the intent name as a `String` without white spaces
+  - `target`* the target plugin name as a `String`
   - `query` the user's request as wrote or translated as a `String`
-  - `confidence` the confidence in the interpretation of the intent from the query as a `number` between 0 and 1
+  - `confidence` the confidence in the target resolution as a `number` between 0 and 1
   - `owner`* a valid user uuid as a `String`
   - `parameters`* an `array` of parameter
 
-#### Parameters Types
+#### Parameters
 
-##### Date
-
-  - `type`* match `"date"`
-  - `value`* any `String` that can be parsed by Date
-
-##### Position
-
-  - `type`* match `"position"`
-  - `value`*
-    - `address` a `String` representing an address
-    - `lat`* the latitude between -90 and 90
-    - `long`* the longitude between -180 and 180
-  
-
-##### Joker
-
-You can freely use your own parameter type convention as long they follow this syntax:
-  - `type`* any `String` that does not match a previous parameter type name
+Parameters are objects with the following keys:
+  - `type`* `String`
   - `value`* `Any`
 
 ## Example
@@ -61,7 +42,7 @@ A minimal "hello" intent
 
 ```json
 {
-    "name": "hello",
+    "target": "weather",
     "owner": "00000000-0000-0000-0000-000000000000",
     "parameters": []
 }
@@ -71,7 +52,7 @@ An example using multiples parameters
 
 ```json
 {
-  "name": "geolocation",
+  "target": "map",
   "query": "Where am i now ?",
   "confidence": 0.9,
   "owner": "00000000-0000-0000-0000-000000000000",
