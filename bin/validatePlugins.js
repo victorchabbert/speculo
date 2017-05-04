@@ -33,8 +33,7 @@ function loadBackendPlugin(name, pluginPackage) {
 function validateBackendPlugin(name, plugin) {
   const shape = {
     name: isString,
-    handle: isFunction,
-    intents: isArray
+    handle: isFunction
   }
 
   invariant(

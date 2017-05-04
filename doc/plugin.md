@@ -22,7 +22,6 @@ The root of a plugin must contain an index.js exporting the following object.
 
   - `name`* the name of the plugin as an alphanumeric `String`
   - `handle`* a function taking two parameters, `func([intent](intent.md), [mirrorInterface](mirrorInterface.md))`
-  - `intents`* an `Array` of [intent](intent.md) name
 
 ## ClientSide
 

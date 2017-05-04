@@ -3,26 +3,22 @@ const debug = require('debug')('core:pluginManager');
 
 const eventEmitter = require("events");
 const intentValidator = require('./intent/intentValidator');
+const MirrorInterface = require("./Mirror/MirrorInterface");
 
 ////private functions of pluginManager
 /**
- * Attach listeners to pluginObject functions
+ * Attach listeners to plugins to handle incoming intents
  *
- * @param plugin
- * @param self pluginManager context
+ * @param that PluginManager instance
+ * @param plugin BackendPlugin
  */
-var bindEventListeners = (plugin, self) => {
-  plugin.intents.forEach(name => {
-
-    self.on(name, (intent) => {
-      //make events handling asynchronous
-      setImmediate(() => {
-        plugin.handle(
-          intent,
-          self._injectedObject(plugin, intent)//return a MirrorInterface instance
-        );
-      });
-    });
+var bindEventListeners = (that, plugin) => {
+  that.on(plugin.name, (intent) => {
+    //make events handling asynchronous
+    setImmediate(() => {
+        plugin.handle(intent, new MirrorInterface(that.server, plugin, intent));
+      }
+    );
   });
 };
 
@@ -37,7 +33,7 @@ class PluginManager extends eventEmitter {
    */
   constructor() {
     super();
-    this._injectedObject = console.log;
+    this.server = null;
     this.loadPlugins();
   }
 
@@ -46,13 +42,13 @@ class PluginManager extends eventEmitter {
       const manifest = require('../plugins/pluginsManifest');
       this._activePlugins = manifest.pluginList;
       this._activePlugins.forEach(name => {
-        let backendPlugin = manifest.plugins[name].main
-        backendPlugin = backendPlugin.default ? backendPlugin.default : backendPlugin
-        const bound = bindEventListeners(backendPlugin, this)
-        _debug(`core:pluginManager::${name}`)('activated')
-        return bound
+        let backendPlugin = manifest.plugins[name].main;
+        backendPlugin = backendPlugin.default ? backendPlugin.default : backendPlugin;
+        const bound = bindEventListeners(this, backendPlugin);
+        debug(`${name} activated`);
+        return bound;
       })
-    } catch(e) {
+    } catch (e) {
       console.log(e)
     }
   }
@@ -60,33 +56,16 @@ class PluginManager extends eventEmitter {
   emitIntent(intent) {
     const err = intentValidator(intent).error;
 
-    if(err) {
+    if (err) {
       debug("WARN invalid intent: %o", intent);
       debug(err.details);
       return false;
     }
     else {
       debug("received intent: %o", intent);
-      this.emit(intent.name, intent);
+      this.emit(intent.target, intent);
       return true;
     }
-  }
-
-  /**
-   * set the callback function called by the plugins
-   * !event are call asynchronously so should not be modified during run time.
-   *
-   * @param injectedObject
-   */
-  set injectedObject(injectedObject) {
-    this._injectedObject = injectedObject;
-  }
-
-  /**
-   * @returns {*}
-   */
-  get injectedObject() {
-    return this._injectedObject;
   }
 
   get activePlugins() {

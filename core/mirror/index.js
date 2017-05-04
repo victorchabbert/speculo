@@ -42,21 +42,11 @@ const sendPluginList = (socket, path, params, next) => {
   next();
 };
 
-/**
- * Configure the plugin manager to inject a MirrorInterface in the plugin's handle function
- *
- * @param server HAPI nes server
- */
-const configurePluginManager = (server) => {
-  pluginManager.injectedObject =
-    (plugin, intentObject) => new MirrorInterface(server, plugin, intentObject);
-};
-
 // Module boostrapping
 exports.register = function (server, options, next) {
   debug("Registering...");
 
-  configurePluginManager(server);
+  pluginManager.server = server;//configure plugin manager
 
   server.route({
     method: 'GET',
@@ -80,7 +70,6 @@ exports.register = function (server, options, next) {
     onSubscribe: sendPluginList
   });
 
-  //allow any subscription following this syntax
   server.subscription("/plugin/{name}", {
     filter: recipientMirrorFilter
     //auth:TODO
