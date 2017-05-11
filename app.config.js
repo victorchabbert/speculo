@@ -9,7 +9,6 @@ module.exports = {
   ],
   core_modules: [
     "mirror",
-    "intent",
-    "facebook"
+    "intent"
   ]
 };

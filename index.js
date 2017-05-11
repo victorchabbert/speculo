@@ -1,10 +1,7 @@
-/**
- * Created by GILLES Damien on 15/02/2017.
- */
+"use strict";
 require('babel-polyfill');
 
-const _debug = require('debug');
-const debug = _debug('server');
+const debug = require('debug')('server');
 
 const Glue = require('glue');
 const mongoose = require('mongoose');

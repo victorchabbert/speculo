@@ -15,7 +15,7 @@ const MirrorDevice = require("../Models/MirrorDevice");
  * @param next
  */
 const recipientMirrorFilter = (path, message, options, next) => {
-  next(options.internal.outputDevice === options.credentialstrue);
+    next(options.internal.outputDevice === options.credentialstrue);
 };
 
 /**
@@ -27,75 +27,75 @@ const recipientMirrorFilter = (path, message, options, next) => {
  * @param next
  */
 const sendPluginList = (socket, path, params, next) => {
-  const pluginManager = require("../PluginManager");
-  socket.publish(
-    path,
-    {
-      type: "list",
-      payload: pluginManager.activePlugins.map(name => ({
-        name: name,
-        channel: `/plugin/${name}`
-      }))
-    },
-      err => err && debug(err)
-  );
+    const pluginManager = require("../PluginManager");
+    socket.publish(
+        path,
+        {
+            type: "list",
+            payload: pluginManager.activePlugins.map(name => ({
+                name: name,
+                channel: `/plugin/${name}`
+            }))
+        },
+            err => err && debug(err)
+    );
 
-  const device = new MirrorDevice();
-  device.save();
-  socket.publish(
-    path,
-    {
-      type: "authentication",
-      payload: {
-        uuid: device.uuid
-      }
-    }
-  );
+    const device = new MirrorDevice();
+    device.save();
+    socket.publish(
+        path,
+        {
+            type: "authentication",
+            payload: {
+                uuid: device.uuid
+            }
+        }
+    );
 
-  next();
+    next();
 };
 
 // Module boostrapping
 exports.register = function (server, options, next) {
-  debug("Registering...");
+    debug("Registering...");
 
-  pluginManager.server = server;//configure plugin manager
+    pluginManager.server = server;//configure plugin manager
 
-  server.onConnection = function (socket) {
-    debug('0 %o', socket);
-  };
+    server.onConnection = function (socket) {
+        debug('0 %o', socket);
+    };
 
-  server.route({
-    method: 'GET',
-    path: '/',
-    handler: function (request, reply) {
-      reply.file(path.join(__dirname, '..', '..', 'build/index.html'))
-    }
-  });
+    server.route({
+        method: 'GET',
+        path: '/',
+        handler: function (request, reply) {
+            reply.file(path.join(__dirname, '..', '..', 'build/index.html'))
+        }
+    });
 
-  server.route({
-    method: 'GET',
-    path: '/static/{file*}',
-    handler: {
-      directory: {
-        path: path.join(__dirname, '..', '..', 'build/static')
-      }
-    }
-  });
+    server.route({
+        method: 'GET',
+        path: '/static/{file*}',
+        handler: {
+            directory: {
+                path: path.join(__dirname, '..', '..', 'build/static')
+            }
+        }
+    });
 
-  server.subscription("/system", {
-    onSubscribe: sendPluginList
-  });
+    server.subscription("/system", {
+        onSubscribe: sendPluginList
+    });
 
-  server.subscription("/plugin/{name}", {
-    filter: recipientMirrorFilter
-    //auth:TODO
-  });
+    server.subscription("/plugin/{name}", {
+        filter: recipientMirrorFilter
+        //auth:TODO
+    });
 
-  debug("Complete !");
-  next();
+    debug("Complete !");
+    next();
 };
 
 exports.register.attributes = {
-  pkg: require("./package.json")
+    pkg: require("./package.json")
 };

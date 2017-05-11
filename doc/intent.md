@@ -1,5 +1,5 @@
 <!-- version -->
-# 0.1.0 intent API Reference
+# 0.2.0 intent API Reference
 <!-- end version -->
 
 <!-- toc -->
@@ -27,8 +27,8 @@ The keys marked with a star are required
   - `target`* the target plugin name as a `String`
   - `query` the user's request as wrote or translated as a `String`
   - `confidence` the confidence in the target resolution as a `number` between 0 and 1
-  - `ownerId`* a valid user uuid as a `String`
   - `parameters`* an `array` of parameter
+  - `authToken` a valid jwt user token as a `String`, if not provided the request must be send with an Authorization header containing the token
 
 #### Parameters
 
@@ -43,7 +43,7 @@ A minimal "hello" intent
 ```json
 {
     "target": "weather",
-    "owner": "00000000-0000-0000-0000-000000000000",
+    "authToken": "xxx.xxx.xxx",
     "parameters": []
 }
 ```
@@ -55,7 +55,7 @@ An example using multiples parameters
   "target": "map",
   "query": "Where am i now ?",
   "confidence": 0.9,
-  "owner": "00000000-0000-0000-0000-000000000000",
+  "authToken": "xxx.xxx.xxx",
   "parameters": [
     {
       "type": "date",

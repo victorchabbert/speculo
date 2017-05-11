@@ -15,20 +15,20 @@ const DEFAULT_TARGET = "speculo";
  * @param senderId
  */
 const resolveOwner = async function (senderId) {
-  let userInputDevice = await FacebookMessengerDevice.findOne({senderId: senderId}).populate("_owner");
-  //if user is known
-  if (userInputDevice) {
-    return userInputDevice._owner;
-  }
-  else {
-    userInputDevice = new FacebookMessengerDevice({senderId: senderId});
-    const user = new User({_inputDevices: [userInputDevice]});
-    userInputDevice._owner = user._id;
+    let userInputDevice = await FacebookMessengerDevice.findOne({senderId: senderId}).populate("_owner");
+    //if user is known
+    if (userInputDevice) {
+        return userInputDevice._owner;
+    }
+    else {
+        userInputDevice = new FacebookMessengerDevice({senderId: senderId});
+        const user = new User({_inputDevices: [userInputDevice]});
+        userInputDevice._owner = user._id;
 
-    await Promise.all([user.save(), userInputDevice.save()]);
+        await Promise.all([user.save(), userInputDevice.save()]);
 
-    return user;
-  }
+        return user;
+    }
 };
 
 /**
@@ -39,32 +39,35 @@ const resolveOwner = async function (senderId) {
  * @returns {String , [], Number}
  */
 const resolveQuery = async function (query, user) {
-debug(user);
-  //Targeted message @<appName> <message>
-  if (query[0] === "@") {
-    return [query.match(/^@([\w]+)/) | DEFAULT_TARGET, [], 1];
-  } else if(query[0] === "!") {
-    return [DEFAULT_TARGET, { type: query.substring(1, query.find(/\s+/)-1), value: query.substring(query.find(/\s+/)+1)}, 1];
-  }
-  //As current target
-  else if (user.context.target && user.context.target !== DEFAULT_TARGET) {
-    return [user.context.target, [], 1];
-  }
-  //WIT solving
-  else {
-    const [targets, confidence] = await witSolver(query);
-
-    if (targets.length == 1) {
-      return [targets[0], parameters, confidence];
+    debug(user);
+    //Targeted message @<appName> <message>
+    if (query[0] === "@") {
+        return [query.match(/^@([\w]+)/) | DEFAULT_TARGET, [], 1];
+    } else if (query[0] === "!") {
+        return [DEFAULT_TARGET, {
+            type: query.substring(1, query.find(/\s+/) - 1),
+            value: query.substring(query.find(/\s+/) + 1)
+        }, 1];
     }
-    //unsolved
+    //As current target
+    else if (user.context.target && user.context.target !== DEFAULT_TARGET) {
+        return [user.context.target, [], 1];
+    }
+    //WIT solving
     else {
-      return [DEFAULT_TARGET, [{
-        type: "target_options",
-        value: targets
-      }], confidence];
+        const [targets, confidence] = await witSolver(query);
+
+        if (targets.length == 1) {
+            return [targets[0], parameters, confidence];
+        }
+        //unsolved
+        else {
+            return [DEFAULT_TARGET, [{
+                type: "target_options",
+                value: targets
+            }], confidence];
+        }
     }
-  }
 };
 
 /**
@@ -74,16 +77,16 @@ debug(user);
  * @returns {{target: *, query: *, confidence: *, ownerId: string, parameters: *}}
  */
 const facebookAdapter = async function (event) {
-  const owner = await resolveOwner(event.sender.id);
-  const [target, parameters, confidence] = await resolveQuery(event.message.text, owner);
+    const owner = await resolveOwner(event.sender.id);
+    const [target, parameters, confidence] = await resolveQuery(event.message.text, owner);
 
-  return {
-    target: target,
-    query: event.message.text,
-    confidence: confidence,
-    ownerId: String(owner._id),
-    parameters: parameters
-  };
+    return {
+        target: target,
+        query: event.message.text,
+        confidence: confidence,
+        ownerId: String(owner._id),
+        parameters: parameters
+    };
 };
 
 /**
@@ -93,26 +96,26 @@ const facebookAdapter = async function (event) {
  * @param reply
  */
 module.exports = function (request, reply) {
-  var data = request.payload;
+    var data = request.payload;
 
-  // Make sure this is a page subscription
-  if (data.object === 'page') {
-    data.entry.forEach(
-      /**
-       * @param entry {{messaging: []}}
-       */
-      function (entry) {
-      entry.messaging.forEach(function (event) {
-        if (event.message && event.message.text) {
-          facebookAdapter(event).then((intent) => {
-            pluginManager.emitIntent(intent)
-          }, debug);
-        } else {
-          debug("Webhook received unknown event: ", event);
-        }
-      });
-    });
-  }
+    // Make sure this is a page subscription
+    if (data.object === 'page') {
+        data.entry.forEach(
+            /**
+             * @param entry {{messaging: []}}
+             */
+            function (entry) {
+                entry.messaging.forEach(function (event) {
+                    if (event.message && event.message.text) {
+                        facebookAdapter(event).then((intent) => {
+                            pluginManager.emitIntent(intent)
+                        }, debug);
+                    } else {
+                        debug("Webhook received unknown event: ", event);
+                    }
+                });
+            });
+    }
 
-  reply("").code(200);
+    reply("").code(200);
 };
