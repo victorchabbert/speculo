@@ -1,20 +1,25 @@
 /**
  * Created by GILLES Damien on 15/02/2017.
  */
-require('babel-polyfill')
+require('babel-polyfill');
 
 const _debug = require('debug');
 const debug = _debug('server');
 
 const Glue = require('glue');
+const mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
+
 require('dotenv').config();
 
 debug('Running plugin build script');
-const preBuild = require('./bin/preBuild')
+const preBuild = require('./bin/preBuild');
+
+const MONGODB_ADDRESS = process.env.MONGODB_ADDRESS;
 
 preBuild((err) => {
   if (err) {
-    console.error(err);
+    debug(err);
     return;
   }
 
@@ -25,15 +30,25 @@ preBuild((err) => {
     relativeTo: __dirname + '/core'
   };
 
-  Glue.compose(makeManifest(config), options, (err, server) => {
+  mongoose.connect(MONGODB_ADDRESS).then(
+    () => {
+      process.on('SIGINT', function () {
+        mongoose.connection.close(function () {
+          debug('Mongoose default connection disconnected through app termination');
+          process.exit(0);
+        });
+      });
 
-    if (err) {
-      debug('An error occured.');
-      throw err;
-    }
 
-    server.start(() => {
-      console.log(`Server running at: ${server.info.uri}`);
-    });
-  });
-})
+      Glue.compose(makeManifest(config), options, (err, server) => {
+        if (err) {
+          debug('An error occured.');
+          throw err;
+        }
+
+        server.start(() => {
+          console.log(`Server running at: ${server.info.uri}`);
+        });
+      });
+    }, debug);
+});

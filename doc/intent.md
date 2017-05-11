@@ -27,7 +27,7 @@ The keys marked with a star are required
   - `target`* the target plugin name as a `String`
   - `query` the user's request as wrote or translated as a `String`
   - `confidence` the confidence in the target resolution as a `number` between 0 and 1
-  - `owner`* a valid user uuid as a `String`
+  - `ownerId`* a valid user uuid as a `String`
   - `parameters`* an `array` of parameter
 
 #### Parameters

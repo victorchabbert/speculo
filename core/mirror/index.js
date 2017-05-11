@@ -4,6 +4,7 @@ const debug = require("debug")("module:mirror");
 const path = require('path');
 const pluginManager = require('../PluginManager');
 const MirrorInterface = require("./MirrorInterface");
+const MirrorDevice = require("../Models/MirrorDevice");
 
 /**
  * Filter the mirrors that will receive the intent based on the message owner
@@ -14,7 +15,7 @@ const MirrorInterface = require("./MirrorInterface");
  * @param next
  */
 const recipientMirrorFilter = (path, message, options, next) => {
-  next(/*options.credentials.id === message.owner*/ true);
+  next(options.internal.outputDevice === options.credentialstrue);
 };
 
 /**
@@ -39,6 +40,18 @@ const sendPluginList = (socket, path, params, next) => {
       err => err && debug(err)
   );
 
+  const device = new MirrorDevice();
+  device.save();
+  socket.publish(
+    path,
+    {
+      type: "authentication",
+      payload: {
+        uuid: device.uuid
+      }
+    }
+  );
+
   next();
 };
 
@@ -47,6 +60,10 @@ exports.register = function (server, options, next) {
   debug("Registering...");
 
   pluginManager.server = server;//configure plugin manager
+
+  server.onConnection = function (socket) {
+    debug('0 %o', socket);
+  };
 
   server.route({
     method: 'GET',

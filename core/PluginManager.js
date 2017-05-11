@@ -4,6 +4,7 @@ const debug = require('debug')('core:pluginManager');
 const eventEmitter = require("events");
 const intentValidator = require('./intent/intentValidator');
 const MirrorInterface = require("./Mirror/MirrorInterface");
+const speculo = require("./speculo");
 
 ////private functions of pluginManager
 /**
@@ -35,6 +36,13 @@ class PluginManager extends eventEmitter {
     super();
     this.server = null;
     this.loadPlugins();
+
+    this.on("speculo", (intent) => {
+      setImmediate(() => {
+          speculo(intent);
+        }
+      );
+    });
   }
 
   loadPlugins() {
@@ -59,12 +67,12 @@ class PluginManager extends eventEmitter {
     if (err) {
       debug("WARN invalid intent: %o", intent);
       debug(err.details);
-      return false;
+      return Promise.reject();
     }
     else {
       debug("received intent: %o", intent);
       this.emit(intent.target, intent);
-      return true;
+      return Promise.resolve();
     }
   }
 

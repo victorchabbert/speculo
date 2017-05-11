@@ -9,7 +9,7 @@ const intentSchema = Joi.object().keys({
   "target": Joi.string().token().required(),
   "query": Joi.string(),
   "confidence": Joi.number().min(0).max(1),
-  "owner": Joi.string().token().required(),
+  "ownerId": Joi.string().token().required(),
   "parameters": Joi.array().items(
     Joi.object().keys({
       "type": Joi.string().required(),

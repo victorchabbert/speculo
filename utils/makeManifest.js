@@ -17,7 +17,7 @@ module.exports = function makeManifest(config) {
       },
       {
         plugin: {
-          register: "inert"
+          register: "inert",
         }
       }
     ]

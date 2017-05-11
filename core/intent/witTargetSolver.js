@@ -11,7 +11,11 @@ const client = new Wit({
 module.exports = function (query) {
   return new Promise((resolve, reject) => {
     client.message(query, {})
-      .then((responce) => resolve(Object.keys(responce.entities)))
+      .then((responce) => resolve([
+        Object.keys(responce.entities),//entities name
+        Math.min(...Object.keys(responce.entities).map((key) => responce.entities[key][0].confidence))//return min(confidence)
+      ])
+    )
       .catch(reject);
   })
 };
