@@ -18,6 +18,8 @@
 Intents are objects that convey the query and the identity of a user in the system.
 Every incoming message is translated into an intent and treated by the user's applications.
 
+TODOC: require authorization header
+
 ## Schema
 
 ### Structure
@@ -28,7 +30,7 @@ The keys marked with a star are required
   - `query` the user's request as wrote or translated as a `String`
   - `confidence` the confidence in the target resolution as a `number` between 0 and 1
   - `parameters`* an `array` of parameter
-  - `authToken` a valid jwt user token as a `String`, if not provided the request must be send with an Authorization header containing the token
+<!--  - `authToken` a valid jwt user token as a `String`, if not provided the request must be send with an Authorization header containing the token-->
 
 #### Parameters
 
@@ -42,8 +44,7 @@ A minimal "hello" intent
 
 ```json
 {
-    "target": "weather",
-    "authToken": "xxx.xxx.xxx",
+    "target": "weather"
     "parameters": []
 }
 ```
@@ -55,7 +56,6 @@ An example using multiples parameters
   "target": "map",
   "query": "Where am i now ?",
   "confidence": 0.9,
-  "authToken": "xxx.xxx.xxx",
   "parameters": [
     {
       "type": "date",

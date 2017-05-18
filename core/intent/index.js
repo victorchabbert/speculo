@@ -7,9 +7,12 @@ exports.register = function (server, options, next) {
     debug("Registering...");
 
     server.route({
-        path: '/intent',
-        method: 'POST',
-        handler: intentHandler
+        path: "/intent",
+        method: "POST",
+        handler: intentHandler(server),
+        config: {
+            auth: "jwtUser"
+        }
     });
 
     debug("Complete !");

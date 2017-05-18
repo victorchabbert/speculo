@@ -1,5 +1,5 @@
 import Nes from 'nes'
-const wsURL = 'localhost:8080'//'ws://smartmirror.localtunnel.me'//
+const wsURL = 'localhost:8080'//'wss://smartmirror.localtunnel.me'//
 
 const createWsConnection = (connectOptions = {}, clientOptions = {}) => new Promise((resolve, reject) => {
   const client = new Nes.Client(wsURL, clientOptions)

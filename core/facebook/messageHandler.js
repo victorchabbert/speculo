@@ -5,6 +5,7 @@ const witSolver = require("../intent/witTargetSolver");
 const pluginManager = require('../PluginManager');
 const User = require("../models/User");
 const FacebookMessengerDevice = require("../models/FacebookMessengerDevice");
+const processIntent = require("../intent/processIntent");
 
 const DEFAULT_TARGET = "speculo";
 
@@ -92,30 +93,33 @@ const facebookAdapter = async function (event) {
 /**
  * Handle facebook messaging webHook, interpret messages and emitIntents
  *
- * @param request
- * @param reply
+ * @param server
+ * @return {function}
  */
-module.exports = function (request, reply) {
-    var data = request.payload;
+module.exports = (server) =>
+    async function (request, reply) {
+        var data = request.payload;
 
-    // Make sure this is a page subscription
-    if (data.object === 'page') {
-        data.entry.forEach(
-            /**
-             * @param entry {{messaging: []}}
-             */
-            function (entry) {
-                entry.messaging.forEach(function (event) {
-                    if (event.message && event.message.text) {
-                        facebookAdapter(event).then((intent) => {
-                            pluginManager.emitIntent(intent)
-                        }, debug);
-                    } else {
-                        debug("Webhook received unknown event: ", event);
-                    }
+        // Make sure this is a page subscription
+        if (data.object === 'page') {
+            data.entry.forEach(
+                /**
+                 * @param entry {{messaging: []}}
+                 */
+                function (entry) {
+                    entry.messaging.forEach(
+                        () => setImmediate(
+                            async function (event) {
+                                if (event.message && event.message.text) {
+                                    await processIntent(server, await facebookAdapter(event));
+                                } else {
+                                    debug("Webhook received unknown event: ", event);
+                                }
+                            }
+                        )
+                    );
                 });
-            });
-    }
+        }
 
-    reply("").code(200);
-};
+        reply("").code(200);
+    };

@@ -93,7 +93,7 @@ class Intent {
      *
      * @returns String|null
      */
-    get ownerId() {
+    get userId() {
         if(validAuthToken(this.authToken, JWT_SECRET, authTokenSchema)) {
             return JWT.decode(this.authToken).id;
         } else {

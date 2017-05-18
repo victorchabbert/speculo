@@ -18,7 +18,7 @@ exports.register = function (server, options, next) {
     server.route({
         path: '/webhooks/facebook',
         method: 'POST',
-        handler: messageHandler
+        handler: messageHandler(server)
     });
 
     debug("Complete !");
