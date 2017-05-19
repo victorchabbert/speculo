@@ -48,7 +48,7 @@ describe("#security", function () {
             chai.request(SERVER)
                 .get('/auth/device')
                 .end(function (err, res) {
-                    res.text.split(".").length.should.be.eql(3);
+                    res.text.split(".").should.have.lengthOf(3);
                     done();
                 });
         });
@@ -69,7 +69,7 @@ describe("#security", function () {
             chai.request(SERVER)
                 .get('/auth/user')
                 .end(function (err, res) {
-                    res.text.split(".").length.should.be.eql(3);
+                    res.text.split(".").should.have.lengthOf(3);;
                     done();
                 });
         });
@@ -123,7 +123,7 @@ describe("#security", function () {
         it("return a status code 401 when no jwt is provided", function (done) {
             var client = new Nes.Client(SOCKET_SERVER);
             client.connect(function (err) {
-                err.statusCode.should.eql(401);
+                err.statusCode.should.equal(401);
                 done();
             });
         });
@@ -131,7 +131,7 @@ describe("#security", function () {
         it("return a status code 401 when the jwt signature is wrong", function (done) {
             var client = new Nes.Client(SOCKET_SERVER);
             client.connect({ auth: { headers: { authorization: WRONG_SIGN_DEVICE_JWT } } }, function (err) {
-                err.statusCode.should.eql(401);
+                err.statusCode.should.equal(401);
                 done();
             });
         });
@@ -142,7 +142,7 @@ describe("#security", function () {
         it("return a status code 401 when the jwt id is wrong but the signature is correct", function (done) {
             var client = new Nes.Client(SOCKET_SERVER);
             client.connect({ auth: { headers: { authorization: WRONG_ID_DEVICE_JWT } } }, function (err) {
-                err.statusCode.should.eql(401);
+                err.statusCode.should.equal(401);
                 done();
             });
         });
@@ -150,7 +150,7 @@ describe("#security", function () {
         it("return a status code 401 when the jwt does not verify {id: Number, (opts)}", function (done) {
             var client = new Nes.Client(SOCKET_SERVER);
             client.connect({ auth: { headers: { authorization: WRONG_FORMAT_DEVICE_JWT } } }, function (err) {
-                err.statusCode.should.eql(401);
+                err.statusCode.should.equal(401);
                 done();
             });
         });

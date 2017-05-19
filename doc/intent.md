@@ -16,9 +16,9 @@
 ## Description
 
 Intents are objects that convey the user's query through the system.
-Every incoming message is translated into an or multiple intents and treated by the user's applications.
-
-TODOC: require authorization header
+Every incoming message is translated into an or multiple intents and treated by the user's apps.
+The intent end point require an authentication see (authentication)[authentication.md]. 
+The initiator must have the required permissions to be satisfied see (permissions)[permissions.md]
 
 ## Schema
 
@@ -26,10 +26,10 @@ TODOC: require authorization header
 
 An intent consist in a JavaScript object containing the following keys (only). 
 The keys marked with a star are required
-  - `target`* the target application name as a `String`
+  - `target`* the target app name as a `String`
   - `query` the user's request as wrote or translated as a `String`
   - `confidence` the confidence in the target resolution as a `number` between 0 and 1
-  - `parameters`* an `array` of parameter for the target application
+  - `parameters`* an `array` of parameter for the target app
 
 #### Parameters
 

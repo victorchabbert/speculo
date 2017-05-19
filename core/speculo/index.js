@@ -27,7 +27,7 @@ const intentHandler = async function (server, targetDevice, intent) {
                 case "AUTHORIZATION_MISSING":
                     resolve(Messages.AUTHORIZATION_MISSING(option));
                     break;
-                case "AUTHORIZE":
+                case "GRANT":
                     //TODO
                     break;
                 default :
