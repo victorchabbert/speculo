@@ -1,0 +1,7 @@
+{
+    "OK": "",
+    "NO_TARGET_DEVICE": "no target device available",
+    "UNKNOWN_TARGET_APPLICATION": "unknown target application",
+    "TARGET_OPTIONS": "unresolved target application",
+    "AUTHORIZATION_MISSING": "target application require an authorization"
+}

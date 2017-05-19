@@ -13,19 +13,16 @@ const Boom = require("boom");
 module.exports = (server) =>
     async function (request, reply) {
 
-    const intent = new Intent(request.payload);
-
-    if (request.headers["authorization"]) {
+        const intent = new Intent(request.payload);
         intent.authToken = request.headers["authorization"];
-    }
 
-    processIntent(server, intent).then(
-        (response) => {
-            reply(response);
-        },
-        (err) => {
-            debug(err);
-            reply(Boom.badRequest());
-        }
-    );
-};
+        processIntent(server, intent).then(
+            (response) => {
+                reply(response);
+            },
+            (err) => {
+                debug(err);
+                reply(Boom.badRequest());
+            }
+        );
+    };

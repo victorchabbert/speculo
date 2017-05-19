@@ -1,6 +1,8 @@
 "use strict";
 const debug = require('debug')('core:speculo');
 
+const Messages = require("./messages");
+
 /**
  * Speculo intent handler
  *
@@ -9,26 +11,30 @@ const debug = require('debug')('core:speculo');
  * @param targetDevice
  * @return {*}
  */
-const intentHandler = function (server, targetDevice, intent) {
+const intentHandler = async function (server, targetDevice, intent) {
+    return new Promise(function (resolve, reject) {
+        intent.parameters.forEach(({type: command, value: option}) => {
+            debug(command, option);
 
-    intent.parameters.forEach(({type: command, value: option}) => {
-        switch (command) {
-            case "target_options":
-                debug({ message: "choose one", option});
-                return { message: "choose one", option};
-                break;
-            case "authorization_missing":
-                debug({ message: "authorize first", option});
-                return { message: "authorize first", option};
-                break;
-            case "authorize":
-                debug({ message: "authorized", option});
-                return { message: "authorized", option};
-                break;
-            default :
-                debug("command unknown "+command);
-                break;
-        }
+            switch (command) {
+                case "UNKNOWN_TARGET_APPLICATION":
+                    debug(Messages.UNKNOWN_TARGET_APPLICATION(option));
+                    resolve(Messages.UNKNOWN_TARGET_APPLICATION(option));
+                    break;
+                case "TARGET_OPTIONS":
+                    resolve(Messages.TARGET_OPTIONS(option));
+                    break;
+                case "AUTHORIZATION_MISSING":
+                    resolve(Messages.AUTHORIZATION_MISSING(option));
+                    break;
+                case "AUTHORIZE":
+                    //TODO
+                    break;
+                default :
+                    resolve(Messages.OK());
+                    break;
+            }
+        });
     });
 };
 

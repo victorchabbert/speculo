@@ -1,48 +1,52 @@
 {
-  "name": "frontend",
-  "version": "0.1.0",
-  "private": true,
-  "devDependencies": {
-    "babel-polyfill": "^6.23.0",
-    "cross-env": "^3.2.3",
-    "debug": "^2.6.1",
-    "localtunnel": "^1.8.2",
-    "react-scripts": "0.9.0"
-  },
-  "dependencies": {
-    "boom": "^4.3.1",
-    "dotenv": "^4.0.0",
-    "glue": "^4.1.0",
-    "hapi": "^16.1.0",
-    "hapi-auth-jwt2": "^7.2.4",
-    "immutable": "^3.8.1",
-    "inert": "^4.2.0",
-    "invariant": "^2.2.2",
-    "lodash": "^4.17.4",
-    "mongoose": "^4.9.7",
-    "nes": "^6.4.0",
-    "node-uuid": "^1.4.8",
-    "node-wit": "^4.2.0",
-    "react": "^15.4.2",
-    "react-dom": "^15.4.2",
-    "react-redux": "^5.0.2",
-    "redux": "^3.6.0",
-    "redux-immutable": "^3.0.11",
-    "redux-saga": "^0.14.3",
-    "styled-components": "^1.4.4",
-    "warning": "^3.0.0"
-  },
-  "scripts": {
-    "start": "node bin/run && react-scripts start",
-    "build": "node bin/run && react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "server": "node index.js",
-    "server:log": "cross-env DEBUG=* node --trace-warnings --trace-deprecation index.js",
-    "deploy": "react-scripts build && node index.js"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "proxy": "ws://localhost:8080"
+    "name": "frontend",
+    "version": "0.1.0",
+    "private": true,
+    "devDependencies": {
+        "babel-polyfill": "^6.23.0",
+        "chai": "^3.5.0",
+        "chai-http": "^3.0.0",
+        "cross-env": "^3.2.3",
+        "debug": "^2.6.1",
+        "localtunnel": "^1.8.2",
+        "mocha": "^3.4.1",
+        "react-scripts": "0.9.0"
+    },
+    "dependencies": {
+        "boom": "^4.3.1",
+        "dotenv": "^4.0.0",
+        "glue": "^4.1.0",
+        "hapi": "^16.1.0",
+        "hapi-auth-jwt2": "^7.2.4",
+        "immutable": "^3.8.1",
+        "inert": "^4.2.0",
+        "invariant": "^2.2.2",
+        "lodash": "^4.17.4",
+        "mongoose": "^4.9.7",
+        "nes": "^6.4.0",
+        "node-uuid": "^1.4.8",
+        "node-wit": "^4.2.0",
+        "react": "^15.4.2",
+        "react-dom": "^15.4.2",
+        "react-redux": "^5.0.2",
+        "redux": "^3.6.0",
+        "redux-immutable": "^3.0.11",
+        "redux-saga": "^0.14.3",
+        "styled-components": "^1.4.4",
+        "warning": "^3.0.0"
+    },
+    "scripts": {
+        "start": "node bin/run && react-scripts start",
+        "build": "node bin/run && react-scripts build",
+        "test": "react-scripts test --env=jsdom",
+        "eject": "react-scripts eject",
+        "server": "node index.js",
+        "server:log": "cross-env DEBUG=* node --trace-warnings --trace-deprecation index.js",
+        "server:test": "mocha",
+        "deploy": "react-scripts build && node index.js"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "proxy": "ws://localhost:8080"
 }

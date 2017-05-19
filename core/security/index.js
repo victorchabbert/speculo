@@ -21,11 +21,11 @@ const validDeviceTokenContent = function (decoded, request, callback) {
                 callback(null, true, {user : device._id});
             }
             else {
-                callback(new Error("JWT token does not match any bdd entry"), false);
+                callback(null, false);
             }
         },
         (err) => {
-            callback(err, false);
+            callback(null, false);
         }
     );
 };
@@ -38,18 +38,17 @@ const validDeviceTokenContent = function (decoded, request, callback) {
  * @param callback
  */
 const validUserTokenContent = function (decoded, request, callback) {
-    debug(decoded.id);
     User.findById(decoded.id).then(
         (user) => {
             if (user) {
                 callback(null, true, {user : user._id});
             }
             else {
-                callback(new Error("JWT token does not match any bdd entry"), false);
+                callback(null, false);
             }
         },
         (err) => {
-            callback(err, false);
+            callback(null, false);
         }
     );
 };

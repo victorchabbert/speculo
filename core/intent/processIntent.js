@@ -3,6 +3,7 @@ const debug = require('debug')('core:pluginManager');
 
 const speculo = require("../speculo");
 const User = require("../models/User");
+const Messages = require("../speculo/messages");
 
 /**
  * Return pluginManifest (nocache)
@@ -46,7 +47,7 @@ const revolveTargetApp = function (intent, user) {
         }
         else { //target must be authorized first
             intentCopy.parameters.push({
-                type: "authorization_missing",
+                type: "AUTHORIZATION_MISSING",
                 value: intentCopy.target
             });
             intentCopy.target = "speculo";
@@ -57,7 +58,7 @@ const revolveTargetApp = function (intent, user) {
 
     else {//target does not exist
         intentCopy.parameters.push({
-            type: "target_unknown",
+            type: "UNKNOWN_TARGET_APPLICATION",
             value: intentCopy.target
         });
         intentCopy.target = "speculo";
@@ -107,13 +108,13 @@ const processIntent = async function (server, intent) {
         updateUserContext(user, intentWithValidTarget, targetDevice);
 
         if (intentWithValidTarget.target === "speculo") {
-            return speculo(server, targetDevice, intent);
+            return await speculo(server, targetDevice, intent);
         }
         else if (targetDevice) {
             server.publish(`app/${intent.name}`, intent, {user: targetDevice._id});
         }
         else {
-            return {code: 1, message: "no target device available"};
+            return Messages.NO_TARGET_DEVICE();
         }
     }
     else {

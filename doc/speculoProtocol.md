@@ -1,5 +1,5 @@
 <!-- version -->
-# 0.0.1 Speculo protocol
+# 0.1.0 Speculo protocol
 <!-- end version -->
 
 <!-- toc -->
@@ -24,7 +24,7 @@ The following documentation assume that you know nes API as version 2.2.x.
 
 ### connect
 
-The client can directly connect to the webSocket server on port 8080. 
+The client can connect to the WS server on port 8080. 
 No authentication is required (currently as 0.0.1).
 
 ### /system channel

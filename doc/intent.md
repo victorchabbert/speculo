@@ -15,8 +15,8 @@
 
 ## Description
 
-Intents are objects that convey the query and the identity of a user in the system.
-Every incoming message is translated into an intent and treated by the user's applications.
+Intents are objects that convey the user's query through the system.
+Every incoming message is translated into an or multiple intents and treated by the user's applications.
 
 TODOC: require authorization header
 
@@ -26,11 +26,10 @@ TODOC: require authorization header
 
 An intent consist in a JavaScript object containing the following keys (only). 
 The keys marked with a star are required
-  - `target`* the target plugin name as a `String`
+  - `target`* the target application name as a `String`
   - `query` the user's request as wrote or translated as a `String`
   - `confidence` the confidence in the target resolution as a `number` between 0 and 1
-  - `parameters`* an `array` of parameter
-<!--  - `authToken` a valid jwt user token as a `String`, if not provided the request must be send with an Authorization header containing the token-->
+  - `parameters`* an `array` of parameter for the target application
 
 #### Parameters
 
@@ -40,11 +39,11 @@ Parameters are objects with the following keys:
 
 ## Example
 
-A minimal "hello" intent 
+A minimal intent 
 
 ```json
 {
-    "target": "weather"
+    "target": "hello"
     "parameters": []
 }
 ```
